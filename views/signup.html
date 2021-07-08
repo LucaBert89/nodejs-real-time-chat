@@ -9,16 +9,18 @@
 </head>
 <body>
     <main class="login-app-container">
-        <form action="/login" method="POST">
+        <form action="/signup" method="POST">
             <label for="email"><b>Username</b></label>
             <input type="text" placeholder="Email" name="email" required>
         
             <label for="password"><b>Password</b></label>
             <input type="password" placeholder="Enter Password" name="password" required>
+
+            <label for="confirmPassword"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="confirmPassword" required>
         
-            <button type="submit">Login</button>
+            <button type="submit">Sign Up</button>
         </form>
-        <button type="submit"><a href="signup">Sign up  </a></button>
     </main>
     <script src="/js/index.js"></script>
 </body>

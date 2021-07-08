@@ -1,26 +1,36 @@
-const mongo = require("mongodb").MongoClient;
 const express = require('express');
+const mongoose = require("mongoose");
 const path = require('path');
+const router = express.Router();
+const app = express();
+
+
 require('dotenv').config();
 
-const app = express();
+const loginRoute = require("./routes/auth")
+const chatRoute = require("./routes/chat");
+const bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({extended: false}));
+
 app.use(express.static(path.join(__dirname, 'public')));
-//const client = require("socket.io").listen(4000).sockets;
+app.use(loginRoute);
+app.use(chatRoute);
 
-app.get('/', (req, res) => {
-    const filePath = __dirname;
-    res.sendFile(path.join(filePath, 'views','index.html'));
-});
 
-app.listen(3000)
-
-mongo.connect(
-    process.env.DB_CONN
+mongoose.connect(
+    process.env.DB_CONN,
+    { useUnifiedTopology: true,
+     useNewUrlParser: true }
 )
 .then(result => {
+    app.listen(3000)
     console.log("connected");
+ 
 })
 .catch(err => {
     console.log(err);
-})
-;
+});   
+
+
+
+
