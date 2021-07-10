@@ -2,9 +2,9 @@
   "name": "nodejs-real-time-chat",
   "version": "1.0.0",
   "description": "- Implement a local web server using NodeJs and Socket.io\r - Implement an interface to show the real-time chat\r - Each user should be authenticated on a database before joining the chat \r - Test the application from a different browser screen",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon app.js"
   },
   "repository": {
     "type": "git",
