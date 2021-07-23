@@ -1,65 +1,54 @@
 const path = require('path');
 const User = require("../models/users")
-const bcrypt = require('bcryptjs');
+
+const jwt = require('jsonwebtoken');
+
+
+//handle error messages
+const handleErrors = (err) => {
+    let errors = {email:"", password: ""};
+
+    if(err.message.includes("user validation failed")) {
+        Object.values(err.errors).forEach(({properties}) => {
+            errors[properties.path] = properties.message;
+        });
+    }
+
+    //email address already registeredì
+    if(err.code === 11000){
+        errors.email = "that email is already registered";
+        return errors;
+    }
+
+    return errors;
+}
 
 exports.getLoginPage = (req, res) => {
     const filePath = __dirname;
-    res.sendFile(path.join(filePath, '../', 'views','index.html'));
+    res.render(path.join(filePath, '../', 'views','login.ejs'))
 };
 
-exports.postLoginPage = (req, res) => {
+exports.postLoginPage = async function(req, res) {
     const email = req.body.email;
     const password = req.body.password;
-    User.findOne({email:email})
-        .then(user => {
-            if(!user) {
-                return res.redirect("/login");
-            }
-            bcrypt.compare(password, user.password).then(result => {
-                if(result) {
-                    return res.redirect("/chat");
-                }
-                return res.redirect("/login")
-            })
-            .catch(err => {
-                console.log(err);
-                return res.redirect("/login")
-            })
-        })
 }
 
 exports.getSignUpPage = (req, res) => {
     const filePath = __dirname;
-    res.sendFile(path.join(filePath, '../', 'views','signup.html'));
+    res.render(path.join(filePath, '../', 'views','signup.ejs'))
 };
 
-exports.postSignUpPage = (req, res) => {
-    const email = req.body.email;
-    const password = req.body.password;
-    const confirmPassword = req.body.confirmPassword;
-    User.findOne({email:email})
-    .then(singleUser => {
-        if(singleUser) {
-            return res.redirect("/signup");
-        }
-        return bcrypt.hash(password, 12);
-    })
-    .then(hashedPassword => {
-        if(hashedPassword) {
-            const user = new User({
-                email:email,
-                password:hashedPassword
-            });
-            return user.save();
-        }
-    })
-    .then(result => {
-        if(result) {
-            return res.redirect("/login")
-        }
-        
-    })
-    .catch(err => {
+exports.postSignUpPage = async (req, res) => {
+    const {email, password} = req.body;
+    console.log(email, password);
+    try {
+        console.log("ok");
+        const user = await  User.create({email, password});
+        return res.status(201).json(user); 
+    }
+    catch (err) {
+        const errors = handleErrors(err)
         console.log(err);
-    })
+        res.status(400).json({errors});
+    }
 };
