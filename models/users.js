@@ -21,8 +21,8 @@ const userSchema = new Schema({
 
 // using a Mongoose pre hook to hash the password before the user enter in the database
 userSchema.pre("save", async function(next) {
-    const salt = await bycrypt.genSalt();
-    this.password = await bycrypt.hash(this.password, salt);
+    const salt = await bcrypt.genSalt();
+    this.password = await bcrypt.hash(this.password, salt);
     next();
 })
 
