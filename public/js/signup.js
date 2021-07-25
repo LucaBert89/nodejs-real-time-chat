@@ -7,6 +7,8 @@ form.addEventListener("submit", async (e) => {
     const email = form.email.value;
     const password = form.password.value;
     console.log(email, password);
+
+    //reset error handling values
     emailError.innerText = "";
     passwordError.innerText = "";
 
@@ -18,14 +20,15 @@ form.addEventListener("submit", async (e) => {
                 'Content-Type': 'application/json'
             }
         });
+        // fetch response take data or error
         const data = await res.json();
-        console.log(data.errors)
+        //if inside data there is an errors obj
         if(data.errors) {
             emailError.innerText = data.errors.email;
             passwordError.innerText = data.errors.password;
             return
         }
-        console.log(data);
+        //if there is the id, redirect
         if(data._id) {
             location.assign("/login");
         }

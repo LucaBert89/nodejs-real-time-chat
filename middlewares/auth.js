@@ -5,14 +5,17 @@ exports.verify = function(req, res, next){
     console.log(accessToken);
     //if there is no token stored in cookies, the request is unauthorized
     if (!accessToken){
-        return res.status(403).send()
+        return res.redirect("/login");
     }
 
     try{
-
-        let authToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
         //use the jwt.verify method to verify the access token
-        //throws an error if the token has expired or has a invalid signature
+        let authToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err,decodedToken) => {
+            if(err) return res.redirect("/login");
+            next();
+        });
+       
+        //throws an error if the token has expired or has an invalid signature
         req.authToken = authToken;
         next();
     }

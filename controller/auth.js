@@ -8,6 +8,10 @@ const jwt = require('jsonwebtoken');
 const handleErrors = (err) => {
     let errors = {email:"", password: ""};
  
+    //error handling for login
+    if(err.message === "incorrect email") errors.email = "the email is not registered";
+    if(err.message === "incorrect password") errors.password = "the password is incorrect";
+
     if(err.message.includes("User validation failed")) {
         Object.values(err.errors).forEach(({properties}) => {
             console.log(properties);
@@ -15,7 +19,7 @@ const handleErrors = (err) => {
         });
     }
 
-    //email address already registeredì
+    //email address already registered
     if(err.code === 11000){
         errors.email = "that email is already registered";
         return errors;
@@ -26,7 +30,7 @@ const handleErrors = (err) => {
 
 const maxAge = 3*24*60*60;
 const createToken = (id) => {
-    return jwt.sign({ id }, "my-secret", {
+    return jwt.sign({ id }, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: maxAge
     })
 }
@@ -37,8 +41,21 @@ exports.getLoginPage = (req, res) => {
 };
 
 exports.postLoginPage = async function(req, res) {
-    const email = req.body.email;
-    const password = req.body.password;
+    const {email, password} = req.body;
+
+    try {
+        console.log("ok");
+
+        const user = await User.login(email, password);
+        const token = createToken(user._id);
+        res.cookie("jwt", token, {httpOnly: true, maxAge: maxAge * 1000})
+        return res.status(200).json({user: user._id}); 
+    }
+    catch (err) {
+        const errors = handleErrors(err);
+        console.log(errors);
+        res.status(400).json({errors});
+    }
 }
 
 exports.getSignUpPage = (req, res) => {
@@ -51,7 +68,7 @@ exports.postSignUpPage = async (req, res) => {
     const {email, password} = req.body;
     console.log(email, password);
     try {
-        console.log("ok");
+        console.log("signup");
         const user = await User.create({email, password});
         const token = createToken(user._id);
         res.cookie("jwt", token, {httpOnly: true, maxAge: maxAge * 1000})

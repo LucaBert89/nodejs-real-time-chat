@@ -2,7 +2,7 @@ const path = require('path');
 
 exports.getChatPage = (req, res) => {
     const filePath = __dirname;
-    res.sendFile(path.join(filePath, '../', 'views','chat.html'));
+    res.render(path.join(filePath, '../', 'views','chat.ejs'))
 };
 
 exports.postChatPage = (req, res) => {
