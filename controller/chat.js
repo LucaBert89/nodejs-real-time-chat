@@ -20,7 +20,7 @@ exports.postChatPage = (req, res) => {
     catch(e){
         return res.status(401).send()
     }
-
+    console.log(accessToken);
      //retrieve the refresh token from the users array
      const refreshToken = user.refreshToken
 

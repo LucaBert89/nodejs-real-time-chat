@@ -13,4 +13,6 @@ router.get('/signup', authPage.getSignUpPage);
 
 router.post('/signup', authPage.postSignUpPage);
 
+//router.get('/chat', authPage.getSignUpPage);
+
 module.exports = router;
