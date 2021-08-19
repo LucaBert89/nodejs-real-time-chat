@@ -22,6 +22,7 @@ form.addEventListener("submit", async(e) => {
         // fetch response take data or error
         const data = await res.json();
         console.log(data);
+        localStorage.setItem("userID", data.user);
         //if inside data there is an errors obj
         if(data.errors) {
             emailError.innerText = data.errors.email;
@@ -30,9 +31,7 @@ form.addEventListener("submit", async(e) => {
         }
         //if there is the id, redirect
         console.log("qui", data);
-            if(data.user) {
-                location.assign("/chat");
-            }
+            if(data.user) {location.assign("/chat");}
         }
     catch(err) {
         console.log(err);

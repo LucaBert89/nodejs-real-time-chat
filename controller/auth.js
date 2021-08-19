@@ -42,14 +42,14 @@ exports.getLoginPage = (req, res) => {
 
 exports.postLoginPage = async function(req, res) {
     const {email, password} = req.body;
-
+    
     try {
         console.log("ok");
 
         const user = await User.login(email, password);
         const token = createToken(user._id);
         res.cookie("jwt", token, {httpOnly: true})
-        console.log(res.cookie);
+        
         return res.status(200).json({user: user._id}); 
     }
     catch (err) {

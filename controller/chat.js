@@ -1,9 +1,17 @@
 const path = require('path');
+const Chat = require("../models/chat")
 
 exports.getChatPage = (req, res) => {
     const filePath = __dirname;
     res.render(path.join(filePath, '../', 'views','chat.ejs'))
 };
+
+exports.postChatMessage = async (req, res) => {
+    console.log(req.body)
+    const {message, sender} = req.body;
+    const chatMessage = await Chat.create({message, sender});
+    return res.status(201).json(chatMessage);
+}
 
 exports.postChatPage = (req, res) => {
     
