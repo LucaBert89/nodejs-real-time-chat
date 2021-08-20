@@ -17,4 +17,12 @@ const chatSchema = new Schema({
 
 })
 
-module.exports = mongoose.model("Chat", chatSchema);
+const roomSchema = new Schema({
+    topic: {
+        type: String,
+        required: true,
+    },
+    messages: [{chatSchema}]
+})
+
+module.exports = mongoose.model("chatRoom", roomSchema);

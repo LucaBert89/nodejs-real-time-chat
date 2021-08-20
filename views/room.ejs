@@ -7,14 +7,15 @@
     <title>Document</title>
 </head>
 <body>
+    <h1><%= chatroom.topic %></h1>
     <form class="message__text-form">
-        <input type="text" name="message" class="message__text">
-        <button type="submit" class="add__messages">Add Message</button>
+        <input type="text" class="add__message" name="message">
+        <button type="submit" class="add__message-btn">create message</button>
     </form>
     
     <div class="messages-container">
-
+        <%= chatroom.messages %>
     </div>
-    <script src="/js/messages.js"></script>
+    <script src="/js/room.js"></script>
 </body>
 </html>

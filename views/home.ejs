@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form class="message__text-form">
+        <input type="text" class="topic__name" name="topic">
+        <button type="submit" class="add__topic">create Topic</button>
+    </form>
+    
+    <div class="topic-container">
+        <% for(var i = 0; i < chatroom.length; i++) {%>
+            <div>
+                Topic: <% chatroom.topic %>
+                messages: <% chatroom.messages%>
+            </div>
+        <%}%>
+        <%= chatroom %>
+    </div>
+    <script src="/js/createTopic.js"></script>
+</body>
+</html>
