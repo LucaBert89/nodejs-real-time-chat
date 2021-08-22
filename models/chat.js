@@ -22,7 +22,7 @@ const roomSchema = new Schema({
         type: String,
         required: true,
     },
-    messages: [{chatSchema}]
+    messages: [chatSchema]
 })
 
 module.exports = mongoose.model("chatRoom", roomSchema);

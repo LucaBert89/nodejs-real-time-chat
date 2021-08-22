@@ -30,7 +30,7 @@ form.addEventListener("submit", async(e) => {
             return
         }
         //if there is the id, redirect
-        console.log("qui", data);
+        localStorage.setItem("user_id", data.user)
             if(data.user) {location.assign("/chat");}
         }
     catch(err) {

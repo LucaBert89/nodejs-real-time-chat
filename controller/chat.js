@@ -1,4 +1,3 @@
-const path = require('path');
 const chatRoom = require("../models/chat")
 
 exports.getChatPage = (req, res) => {
@@ -11,6 +10,7 @@ exports.postRoom = async (req, res) => {
     
     const {topic ,messages} = req.body;
     const createRoom = await chatRoom.create({topic, messages})
+    
     return res.status(201).json(createRoom);
 }
 
@@ -24,6 +24,48 @@ exports.getRoom = async (req, res) => {
         return res.render("room", {chatroom: room})
     })
 }
+
+exports.getTopic = async (req, res) => {
+    const {topic ,messages} = req.body;
+    console.log(topic)
+    chatRoom.find({topic}).then(function (rooms) {
+        const topicId = rooms.map(e => {return e._id})
+        return res.status(201).json(topicId);
+    })
+}
+
+exports.postMessage = async (req, res) => {
+    const {id, topic ,messages} = req.body;
+    const newMessage = messages[0];
+    console.log(newMessage)
+    await chatRoom.findByIdAndUpdate(id, {$push: {"messages": newMessage}} ,
+                            function (err, docs) {
+    if (err){
+        console.log(err)
+    }
+    else{
+        console.log("Updated User : ", docs);
+    }
+});
+    //let doc = await chatRoom.findOneAndUpdate({topic: topic}, { $push: {"messages": newMessage}});
+    //console.log(doc);
+    /*try {
+        const messageUpdate = await chatRoom.find({topic});
+        console.log(messageUpdate)
+        const addMessage = await messageUpdate[0].messages.push(newMessage);
+        return res.status(201).json(addMessage);
+    }
+    catch (err) {
+       console.log(err);
+    }
+    
+    /*
+    const newMessage = {message: message};
+    const addMessage = await chatRoom.messages.push(newMessage)
+    return res.status(201).json(addMessage);
+    */
+}
+
 
 /*exports.postChatMessage = async (req, res) => {
     console.log(req.body)
