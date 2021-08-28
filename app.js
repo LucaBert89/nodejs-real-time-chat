@@ -2,6 +2,9 @@ const express = require('express');
 const mongoose = require("mongoose");
 const path = require('path');
 const app = express();
+const { socketConnection } = require('./utils/socket-io');
+const chatRoom = require("./models/chat")
+const User = require("./models/users")
 app.set('view engine', 'ejs');
 
 require('dotenv').config();
@@ -26,8 +29,24 @@ mongoose.connect(
 )
 .then(result => {
     console.log("connected")
-    app.listen(3000);
- 
+    const server = app.listen(3000);
+    socketConnection(server);
+    /*io.on("connection", function(socket){
+      console.log("user Connected")
+      socket.on("message", async (message) => {
+        console.log(message.messages)
+        const findUser = await User.findById(message.messages[0].sender).exec();
+        const ok = await chatRoom.findByIdAndUpdate(message.id, {$push: {"messages": message.messages[0]}})
+        const databack = {
+            user: findUser,
+            room: message
+          }
+          io.emit("message", (message, databack));
+
+      })
+      
+    })
+ */
 })
 .catch(err => {
     console.log(err);

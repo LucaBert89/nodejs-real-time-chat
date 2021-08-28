@@ -49,7 +49,6 @@ exports.postLoginPage = async function(req, res) {
         const user = await User.login(email, password);
         const token = createToken(user._id);
         res.cookie("jwt", token, {httpOnly: true})
-        
         return res.status(200).json({user: user._id}); 
     }
     catch (err) {

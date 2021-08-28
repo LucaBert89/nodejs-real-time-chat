@@ -1,5 +1,6 @@
 const chatRoom = require("../models/chat")
-
+const { sendMessage } = require('../utils/socket-io');
+const User = require("../models/users")
 exports.getChatPage = (req, res) => {
     chatRoom.find({}).then(function (rooms) {
         return res.render("home", {chatroom: rooms})
@@ -34,19 +35,18 @@ exports.getTopic = async (req, res) => {
     })
 }
 
-exports.postMessage = async (req, res) => {
+exports.postMessage = async (req, res) => { 
     const {id, topic ,messages} = req.body;
     const newMessage = messages[0];
-    console.log(newMessage)
-    await chatRoom.findByIdAndUpdate(id, {$push: {"messages": newMessage}} ,
-                            function (err, docs) {
-    if (err){
-        console.log(err)
-    }
-    else{
-        console.log("Updated User : ", docs);
-    }
-});
+    const findUser = await User.findById(newMessage.sender).exec();
+    const updateChat = await chatRoom.findByIdAndUpdate(id, {$push: {"messages": newMessage}})
+    const generateMessage = {
+        sender: findUser,
+        findmessage: newMessage
+    }    
+    sendMessage(generateMessage)
+        return res.status(201).json(generateMessage);
+};
     //let doc = await chatRoom.findOneAndUpdate({topic: topic}, { $push: {"messages": newMessage}});
     //console.log(doc);
     /*try {
@@ -64,7 +64,7 @@ exports.postMessage = async (req, res) => {
     const addMessage = await chatRoom.messages.push(newMessage)
     return res.status(201).json(addMessage);
     */
-}
+
 
 
 /*exports.postChatMessage = async (req, res) => {
