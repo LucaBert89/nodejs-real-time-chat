@@ -35,6 +35,22 @@ exports.getTopic = async (req, res) => {
     })
 }
 
+exports.getMessage = async (req, res) => { 
+    console.log("id", req.params.id)
+    const findRoom = await chatRoom.findById(req.params.id)
+    const newArray = findRoom.messages.map(async(e)=> {
+        return {
+            room: findRoom.topic,
+            mex: e.message,
+            iduser: await User.findById(e.sender).then(user => user.email)
+        }
+    })
+    console.log(findRoom)
+    const result = await Promise.all(newArray);
+    console.log(result)
+    return res.status(201).json(result);
+}
+
 exports.postMessage = async (req, res) => { 
     const {id, topic ,messages} = req.body;
     const newMessage = messages[0];
@@ -43,9 +59,9 @@ exports.postMessage = async (req, res) => {
     const generateMessage = {
         sender: findUser,
         findmessage: newMessage
-    }    
+    }   
     sendMessage(generateMessage)
-        return res.status(201).json(generateMessage);
+    return res.status(201).json(generateMessage);
 };
     //let doc = await chatRoom.findOneAndUpdate({topic: topic}, { $push: {"messages": newMessage}});
     //console.log(doc);

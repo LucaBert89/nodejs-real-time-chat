@@ -7,14 +7,14 @@
     <title>Document</title>
 </head>
 <body>
-    <h1 class="topic-name"><%= chatroom.topic %></h1>
+    <h1 class="topic-name"></h1>
     <form class="message__text-form">
         <input type="text" class="add__message" name="message">
         <button type="submit" class="add__message-btn">create message</button>
     </form>
     
     <div class="messages-container">
-        <%= chatroom.messages %>
+        
     </div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/chat.js"></script>

@@ -14,6 +14,7 @@ router.get('/chat/:id', verify, chatPage.getRoom);
 router.post('/topic', verify, chatPage.getTopic);
 
 router.post('/addMessage', verify, chatPage.postMessage);
+router.get('/:id', verify, chatPage.getMessage);
 //router.post('/refresh', verify, chatPage.postChatPage);
 
 module.exports = router;
