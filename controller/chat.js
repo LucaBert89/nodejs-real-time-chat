@@ -2,28 +2,28 @@ const chatRoom = require("../models/chat")
 const { sendMessage } = require('../utils/socket-io');
 const User = require("../models/users")
 exports.getChatPage = (req, res) => {
-    chatRoom.find({}).then(function (rooms) {
-        return res.render("home", {chatroom: rooms})
-    })
+    
+        return res.render("home")
+    
+};
+
+exports.getRoomList = async (req, res) => {
+    const roomList = await chatRoom.find({})
+        
+    return res.status(201).json(roomList);
 };
 
 exports.postRoom = async (req, res) => {
     
     const {topic ,messages} = req.body;
+    console.log(topic, messages);
     const createRoom = await chatRoom.create({topic, messages})
     
     return res.status(201).json(createRoom);
 }
 
-exports.getRoom = async (req, res) => {
-    const roomId = req.params.id;
-    chatRoom.findById(roomId, function (err, room) {
-        if(err) throw err;
-        if(!room){
-        return next(); 
-        }
-        return res.render("room", {chatroom: room})
-    })
+exports.getRoom = (req, res) => {
+    return res.render("room");
 }
 
 exports.getTopic = async (req, res) => {
@@ -38,25 +38,44 @@ exports.getTopic = async (req, res) => {
 exports.getMessage = async (req, res) => { 
     console.log("id", req.params.id)
     const findRoom = await chatRoom.findById(req.params.id)
-    const newArray = findRoom.messages.map(async(e)=> {
-        return {
-            room: findRoom.topic,
-            mex: e.message,
-            iduser: await User.findById(e.sender).then(user => user.email)
-        }
-    })
-    console.log(findRoom)
-    const result = await Promise.all(newArray);
-    console.log(result)
-    return res.status(201).json(result);
+    let newArray = display(findRoom);
+    const topic = topicName(findRoom);
+    console.log(newArray)
+    if(findRoom.messages.length !==0 ) {
+        const result = await Promise.all(newArray);
+        return res.status(201).json(result);
+    } else {
+        console.log("ok");
+        return res.status(201).json(topic);
+    }
+}
+
+function topicName(findRoom) {
+    return {
+        room: findRoom.topic,
+        mex: "",
+        iduser: "",
+    }
+}
+
+function display(findRoom) {
+        return findRoom.messages.map(async(e)=> {
+            return {
+                room: findRoom.topic,
+                mex: e.message,
+                iduser: await User.findById(e.sender).then(user => user.email)
+            }
+        })
 }
 
 exports.postMessage = async (req, res) => { 
     const {id, topic ,messages} = req.body;
+    console.log(topic);
     const newMessage = messages[0];
     const findUser = await User.findById(newMessage.sender).exec();
     const updateChat = await chatRoom.findByIdAndUpdate(id, {$push: {"messages": newMessage}})
     const generateMessage = {
+        topicName: topic,
         sender: findUser,
         findmessage: newMessage
     }   

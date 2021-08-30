@@ -7,6 +7,8 @@ const {verify} = require("../middlewares/auth.js");
 
 router.get('/chat', verify, chatPage.getChatPage);
 
+router.get('/roomlist', verify, chatPage.getRoomList);
+
 router.post('/room', verify, chatPage.postRoom);
 
 router.get('/chat/:id', verify, chatPage.getRoom);

@@ -3,17 +3,14 @@
 (async function() {
     const form = document.querySelector(".message__text-form");
     const topicName = document.querySelector(".topic-name");
-    const messageContainer = document.querySelector(".messages-container");
     const socket = io();
-    console.log(`/${window.location.href.split("/")[4].toString()}`)
+    console.log(localStorage.getItem("roomId"))
 
-    const res = await fetch(`/${window.location.href.split("/")[4].toString()}`)
+    const res = await fetch(`/${localStorage.getItem("roomId").toString()}`)
     const data = await res.json();
+
+    (data.mex === "") ? messageBuild(data.room, "", "") : data.forEach(element => {messageBuild(element.room, element.iduser, element.mex)}); 
     
-    data.forEach(element => {
-        
-        messageBuild(element.room, element.iduser, element.mex);
-    });
     
     form.addEventListener("submit", async(e) => {
         e.preventDefault();
@@ -40,6 +37,8 @@
     
     
     function messageBuild(room, user, message) {
+        
+        const messageContainer = document.querySelector(".messages-container");
         topicName.innerText = room;
         const userAuthor = document.createElement("span");
         const paragraph = document.createElement("p");
@@ -52,7 +51,7 @@
     
     
     socket.on("message", (data) => {
-        messageBuild(data.sender.email, data.findmessage.message)
+        messageBuild(data.topicName, data.sender.email, data.findmessage.message)
     })
 
 
