@@ -5,18 +5,17 @@ const chatPage = require("../controller/chat");
 
 const {verify} = require("../middlewares/auth.js");
 
-router.get('/chat', verify, chatPage.getChatPage);
+router.get('/home', verify, chatPage.getChatPage);
 
 router.get('/roomlist', verify, chatPage.getRoomList);
 
 router.post('/room', verify, chatPage.postRoom);
 
-router.get('/chat/:id', verify, chatPage.getRoom);
-
+//router.get('/chat/:id', verify, chatPage.getRoom);
 router.post('/topic', verify, chatPage.getTopic);
 
 router.post('/addMessage', verify, chatPage.postMessage);
-router.get('/:id', verify, chatPage.getMessage);
+router.get('/chat/:id', verify, chatPage.getMessage);
 //router.post('/refresh', verify, chatPage.postChatPage);
 
 module.exports = router;

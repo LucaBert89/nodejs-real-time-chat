@@ -15,7 +15,7 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser()) 
 app.use(express.json())
-app.use(cors())
+app.use(cors({credentials: true, origin: 'http://localhost:3000'}))
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(loginRoute);
 app.use(chatRoute);
@@ -28,7 +28,7 @@ mongoose.connect(
 )
 .then(result => {
     console.log("connected")
-    const server = app.listen(8000);
+    const server = app.listen(5000);
     socketConnection(server);
     /*io.on("connection", function(socket){
       console.log("user Connected")

@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 
-function CreateRoom() {
+const CreateRoom: React.FC = () => {
 
-    const [room, setRoom] = useState({room: ""})
+    const [room, setRoom] = useState("")
 
         const handleRoom = async (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
@@ -11,12 +11,13 @@ function CreateRoom() {
             const roomChat = room;
     
                 try{
-                    const res = await fetch("/room", {
+                    const res = await fetch(`http://localhost:5000/room`, {
                         method: "Post",
                         body: JSON.stringify({topic: roomChat, messages: []}),
                         headers: {
                             'Content-Type': 'application/json'
-                        }
+                        },
+                        credentials: "include"
                     });
                     // fetch response take data or error
                     const data = await res.json();
@@ -25,7 +26,7 @@ function CreateRoom() {
                     console.log(data);
                     localStorage.setItem('roomId', data._id);
                     console.log(data._id);
-                    if(data._id) {window.location.assign(`/chat/${data._id}`);}
+                    if(data._id) {window.location.assign(`http://localhost:5000/home/chat/${data._id}`);}
                     
                 }
                 catch(err) {
@@ -37,7 +38,7 @@ function CreateRoom() {
     return (
         <div>
         <form onSubmit={handleRoom} className="room__text-form">
-            <input type="text" className="topic__name" name="topic" onChange={e => setRoom({room: e.target.value})}></input>
+            <input type="text" className="topic__name" name="topic" onChange={e => setRoom(e.target.value)}></input>
             <button type="submit" className="add__topic">create Topic</button>
         </form>
         </div>

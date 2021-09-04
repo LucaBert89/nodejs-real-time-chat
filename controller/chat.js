@@ -16,7 +16,7 @@ exports.getRoomList = async (req, res) => {
 exports.postRoom = async (req, res) => {
     
     const {topic ,messages} = req.body;
-    console.log(topic, messages);
+    console.log("ok", topic, messages);
     const createRoom = await chatRoom.create({topic, messages})
     
     return res.status(201).json(createRoom);
@@ -30,7 +30,8 @@ exports.getTopic = async (req, res) => {
     const {topic ,messages} = req.body;
     console.log(topic)
     chatRoom.find({topic}).then(function (rooms) {
-        const topicId = rooms.map(e => {return e._id})
+        console.log(rooms);
+        const topicId = rooms.map(e => e._id)
         return res.status(201).json(topicId);
     })
 }

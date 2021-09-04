@@ -1,6 +1,6 @@
 import React from 'react';
-import CreateRoom from "./CreateRoom"
-import RoomList from "./RoomList"
+import CreateRoom from "./components/CreateRoom"
+import RoomList from "./components/RoomList"
 
 function home() {
     return (
