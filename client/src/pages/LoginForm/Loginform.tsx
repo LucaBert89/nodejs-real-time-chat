@@ -38,6 +38,8 @@ function Form () {
             console.log("okok", error);
             return
         }
+        console.log(data.user);
+        localStorage.setItem("userId", data.user)
         if(data.user) window.location.assign("http://localhost:3000/home");
         //if there is the id, redirect
             //if(data.user) {location.assign("/chat");}

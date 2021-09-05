@@ -1,82 +1,71 @@
 import {useEffect, useState} from 'react'
+import NewMessage from "./components/NewMessage"
+import io from "socket.io-client"
 
 interface Idata {
     isLoaded: boolean,
     data: [Object]
 }
 
+const socket = io("http://localhost:5000");
+
 function Room() {
     const [message, setMessage] = useState<any>("")
     const [list, setList] = useState<Idata>({isLoaded: false, data:[{}]})
     const [roomName, setRoomName] = useState("");
-
+    const [textMessage, setTextMessage] = useState([])
     useEffect(() => {
         (async function() {
             //const socket = io();
-            console.log(localStorage.getItem("roomId"))
             const roomId: any = localStorage.getItem("roomId")?.toString();
             console.log(roomId);
             const res = await fetch(`http://localhost:5000/chat/${roomId}`, {
                 credentials: "include"
             })
             const data = await res.json();
-            console.log(data[0].room);
-            setList({isLoaded: true, data: data});
-            setRoomName(data[0].room)
-            /*data.mex === "") ? messageBuild(data.room, "", "") : data.forEach(element => {messageBuild(element.room, element.iduser, element.mex)}); 
             
-            
-           
-        
-            
-            
-            function messageBuild(room, user, message) {
-                
-                const messageContainer = document.querySelector(".messages-container");
-                topicName.innerText = room;
-                const userAuthor = document.createElement("span");
-                const paragraph = document.createElement("p");
-                paragraph.classList.add("message")
-                paragraph.innerText = message;
-                userAuthor.innerText = user;
-                messageContainer.appendChild(userAuthor);
-                messageContainer.appendChild(paragraph);
+            if(data.mex !== "") {
+                setRoomName(data[0].room)
+                setList({isLoaded: true, data: data});
+
+            } else {
+                setRoomName(data.room)
+                setList({isLoaded: true, data: [{mex: "", iduser: ""}]});
             }
-            
-            
-            socket.on("message", (data) => {
-                messageBuild(data.topicName, data.sender.email, data.findmessage.message)
-            })
-        
-        */
+         
+             socket.on("message", (data: any) => {
+                setTextMessage(data)
+            }) 
         })()
-    }, []);
+    }, [textMessage]);
     
-    const addMessage =(e: any) => {
+    const addMessage = async (e: any) => {
         
             e.preventDefault();
             console.log(message);
-            /*try{
+            console.log(window.location.href.split("/")[5], )
+            try{
                 const res = await fetch("http://localhost:5000/addMessage", {
                     method: "Post", 
-                    body: JSON.stringify({id: window.location.href.split("/")[4], topic: topicName.innerText, messages: [{message: form.message.value, sender: localStorage.getItem("userID").toString()}]}),
+                    body: JSON.stringify({id: window.location.href.split("/")[5], topic: roomName, messages: [{message: message, sender: localStorage.getItem("userId")?.toString()}]}),
                     headers: {
                         'Content-Type': 'application/json'
-                    }
+                    },
+                    credentials: "include"
                 });
                 // fetch response take data or error
-                const data = await res.json();
+                const data: any = await res.json();
                 //if inside data there is an errors obj
                 //
-                console.log(data)
-            
-                //socket.emit("message", data)
+       
+                const newData: any = [textMessage, data];
+                socket.emit("message", newData);
             }
             catch(err) {
                 console.log(err);
             }
-        }*/
-    }
+        }
+    
 
     return (
         <div>
@@ -86,13 +75,19 @@ function Room() {
                 <button type="submit" className="add__message-btn">create message</button>
             </form>
             {list.isLoaded ? list.data.map((e: any) => {
-                  return(
-                    <div className="messages-container" key={e.mex}>
-                        <p className="messages__user-author">{e.iduser}</p>
-                        <p className="messages_user-message">{e.mex}</p>
-                    </div>
-                )
-                }) : <p className="topic-container__topic-name">Loading</p>}
+                    return(
+                        <div className="messages-container" key={e.mex}>
+                            <p className="messages__user-author">{e.iduser}</p>
+                            <p className="messages_user-message">{e.mex}</p>
+                        </div>
+                    )
+                    }) : <p className="topic-container__topic-name">Loading</p>
+                }
+                <div>
+                    {textMessage.length > 0 ?
+                        <NewMessage message={textMessage} />
+                    : ""}  
+                </div>
         </div>
     )
 }
