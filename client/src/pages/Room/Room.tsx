@@ -1,15 +1,17 @@
 import {useEffect, useState} from 'react'
 import NewMessage from "./components/NewMessage"
 import io from "socket.io-client"
+import GetMessages from './components/GetMessages';
+const socket = io("http://localhost:5000");
 
 interface Idata {
     isLoaded: boolean,
     data: [Object]
 }
 
-const socket = io("http://localhost:5000");
 
-function Room() {
+
+const Room = () => {
     const [message, setMessage] = useState<any>("")
     const [list, setList] = useState<Idata>({isLoaded: false, data:[{}]})
     const [roomName, setRoomName] = useState("");
@@ -74,20 +76,10 @@ function Room() {
                 <input type="text" className="add__message" name="message" onChange={e => setMessage(e.target.value)}></input>
                 <button type="submit" className="add__message-btn">create message</button>
             </form>
-            {list.isLoaded ? list.data.map((e: any) => {
-                    return(
-                        <div className="messages-container" key={e.mex}>
-                            <p className="messages__user-author">{e.iduser}</p>
-                            <p className="messages_user-message">{e.mex}</p>
-                        </div>
-                    )
-                    }) : <p className="topic-container__topic-name">Loading</p>
-                }
-                <div>
-                    {textMessage.length > 0 ?
-                        <NewMessage message={textMessage} />
-                    : ""}  
-                </div>
+                <GetMessages messageList={list} />
+                {textMessage.length > 0 ?
+                <NewMessage message={textMessage} />
+                    : ""} 
         </div>
     )
 }
