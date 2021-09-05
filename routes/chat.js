@@ -11,7 +11,6 @@ router.get('/roomlist', verify, chatPage.getRoomList);
 
 router.post('/room', verify, chatPage.postRoom);
 
-//router.get('/chat/:id', verify, chatPage.getRoom);
 router.post('/topic', verify, chatPage.getTopic);
 
 router.post('/addMessage', verify, chatPage.postMessage);

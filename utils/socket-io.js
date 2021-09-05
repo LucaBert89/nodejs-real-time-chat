@@ -2,7 +2,7 @@ let io;
 exports.socketConnection = (server) => {
   io = require('socket.io')(server, {
     cors: {
-      origins: ["*"]
+      origins: ["http://localhost:3000/login"]
     }
   });
   io.on('connection', (socket) => {

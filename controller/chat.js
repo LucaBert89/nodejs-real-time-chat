@@ -22,9 +22,6 @@ exports.postRoom = async (req, res) => {
     return res.status(201).json(createRoom);
 }
 
-exports.getRoom = (req, res) => {
-    return res.render("room");
-}
 
 exports.getTopic = async (req, res) => {
     const {topic ,messages} = req.body;
@@ -64,7 +61,7 @@ function display(findRoom) {
             return {
                 room: findRoom.topic,
                 mex: e.message,
-                iduser: await User.findById(e.sender).then(user => user.email)
+                iduser: await User.findById(e.sender).then(user => user.username)
             }
         })
 }
@@ -83,32 +80,7 @@ exports.postMessage = async (req, res) => {
     sendMessage(generateMessage)
     return res.status(201).json(generateMessage);
 };
-    //let doc = await chatRoom.findOneAndUpdate({topic: topic}, { $push: {"messages": newMessage}});
-    //console.log(doc);
-    /*try {
-        const messageUpdate = await chatRoom.find({topic});
-        console.log(messageUpdate)
-        const addMessage = await messageUpdate[0].messages.push(newMessage);
-        return res.status(201).json(addMessage);
-    }
-    catch (err) {
-       console.log(err);
-    }
     
-    /*
-    const newMessage = {message: message};
-    const addMessage = await chatRoom.messages.push(newMessage)
-    return res.status(201).json(addMessage);
-    */
-
-
-
-/*exports.postChatMessage = async (req, res) => {
-    console.log(req.body)
-    const {message, sender} = req.body;
-    const chatMessage = await Chat.create({message, sender});
-    return res.status(201).json(chatMessage);
-}*/
 
 exports.postChatPage = (req, res) => {
     

@@ -25,7 +25,9 @@ const Room = () => {
                 credentials: "include"
             })
             const data = await res.json();
-            
+            console.log(data)
+            if(data.error) window.location.assign(`http://localhost:3000/login`)
+
             if(data.mex !== "") {
                 setRoomName(data[0].room)
                 setList({isLoaded: true, data: data});
@@ -57,9 +59,10 @@ const Room = () => {
                 });
                 // fetch response take data or error
                 const data: any = await res.json();
+                if(data.error) window.location.assign(`http://localhost:3000/login`)
                 //if inside data there is an errors obj
                 //
-       
+               
                 const newData: any = [textMessage, data];
                 socket.emit("message", newData);
             }

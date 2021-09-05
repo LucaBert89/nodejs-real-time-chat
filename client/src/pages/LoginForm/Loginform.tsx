@@ -2,28 +2,31 @@ import React, {useState} from 'react';
 import {Redirect} from "react-router-dom"
 
 interface IForm {
-    email: string;
-    password: string;
+    username:string,
+    email: string,
+    password: string
 }
 
 interface IError {
+    usernameError: string,
     emailError: string,
     passwordError: string
 }
 
 function Form () {
-    const [user, setUser] = useState<IForm>({email: "", password: ""})
-    const [error, setError] = useState<IError>({emailError: "", passwordError:""})
+    localStorage.removeItem("userId")
+    const [user, setUser] = useState<IForm>({username:"", email: "", password: ""})
+    const [error, setError] = useState<IError>({usernameError:"", emailError: "", passwordError:""})
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
         event.preventDefault()
 
     try{
-        const {email, password} = user;
+        const {username, email, password} = user;
 
         const res = await fetch("http://localhost:5000/login", {
             method: "Post",
-            body: JSON.stringify({email: email, password: password}),
+            body: JSON.stringify({username: username, email: email, password: password}),
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -34,7 +37,7 @@ function Form () {
 
         //if inside data there is an errors obj
         if(data.errors) {
-            setError({emailError: data.errors.email, passwordError:data.errors.password});
+            setError({usernameError: data.errors.username, emailError: data.errors.email, passwordError:data.errors.password});
             console.log("okok", error);
             return
         }
@@ -54,8 +57,13 @@ function Form () {
         <div>
         <main className="login-app-container">
             <form onSubmit={handleSubmit} className="login-app-container__login-form"> 
+            <div className="login-form__username">
+                    <label htmlFor="username"><b>Username</b></label>
+                    <input type="text" placeholder="username" name="username" required onChange={e => setUser({...user, username: e.target.value})} value={user.username}></input>
+                    <div className="login-form__email-error">{error.usernameError}</div>
+                </div>
                 <div className="login-form__email">
-                    <label htmlFor="email"><b>Username</b></label>
+                    <label htmlFor="email"><b>Email</b></label>
                     <input type="text" placeholder="Email" name="email" required onChange={e => setUser({...user, email: e.target.value})} value={user.email}></input>
                     <div className="login-form__email-error">{error.emailError}</div>
                 </div>

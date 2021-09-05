@@ -23,9 +23,8 @@ const CreateRoom: React.FC = () => {
                     const data = await res.json();
                     //if inside data there is an errors obj
                     //if there is the id, redirect
-                    console.log(data)
+                    if(data.error) {window.location.assign(`http://localhost:3000/login`)}
                     localStorage.setItem('roomId', data._id);
-                    console.log(data._id);
                     if(data._id) {window.location.assign(`http://localhost:3000/home/chat/${data._id}`);}
                     
                 }

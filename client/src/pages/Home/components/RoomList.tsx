@@ -22,11 +22,12 @@ function CreateRoom() {
                 credentials: "include"
             })
             const data = await res.json();
-        
+            if(data.error) window.location.assign(`http://localhost:3000/login`)
             console.log(data);
             if(data) {
                 setList({isLoaded: true, data: data});
             }
+            
         })();
 
    

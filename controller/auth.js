@@ -6,9 +6,11 @@ const jwt = require('jsonwebtoken');
 
 //handle error messages
 const handleErrors = (err) => {
-    let errors = {email:"", password: ""};
- 
+    let errors = {username: "", email:"", password: ""};
+    console.log(err.message)
     //error handling for login
+    if(err.message === "username already registered") errors.username = "username already registered";
+    if(err.message === "email already registered") errors.email = "email already registered";
     if(err.message === "incorrect email") errors.email = "the email is not registered";
     if(err.message === "incorrect password") errors.password = "the password is incorrect";
 
@@ -18,35 +20,23 @@ const handleErrors = (err) => {
             errors[properties.path] = properties.message;
         });
     }
-
-    //email address already registered
-    if(err.code === 11000){
-        errors.email = "that email is already registered";
-        return errors;
-    }
-    console.log(errors);
     return errors;  
 }
 
 
 const createToken = (id) => {
     return jwt.sign({ id }, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: "10m"
+        expiresIn: "5m"
     })
 }
 
-exports.getLoginPage = (req, res) => {
-    const filePath = __dirname;
-    res.render(path.join(filePath, '../', 'views','login.ejs'))
-};
-
 exports.postLoginPage = async function(req, res) {
-    const {email, password} = req.body;
+    const {username, email, password} = req.body;
     
     try {
         console.log("ok");
 
-        const user = await User.login(email, password);
+        const user = await User.login(username, email, password);
         const token = createToken(user._id);
         res.cookie("jwt", token, {httpOnly: true});
         return res.status(200).json({user: user._id}); 
@@ -58,23 +48,22 @@ exports.postLoginPage = async function(req, res) {
     }
 }
 
-exports.getSignUpPage = (req, res) => {
-    const filePath = __dirname;
-    res.render(path.join(filePath, '../', 'views','signup.ejs'))
-};
-
-
 exports.postSignUpPage = async (req, res) => {
-    const {email, password} = req.body;
-    console.log(email, password);
+    const {username, email, password} = req.body;
+    console.log(username, email, password);
     try {
         console.log("signup");
-        const user = await User.create({email, password});
-        return res.status(201).json(user); 
+        const checkDuplicate = await User.checkDuplicate(username, email);
+        console.log("sono di qua", checkDuplicate);
+        if(!checkDuplicate.username && !checkDuplicate.user) {
+            const user = await User.create({username, email, password});
+            return res.status(201).json(user); 
+        }
+        
     }
     catch (err) {
         const errors = handleErrors(err);
-        console.log(errors);
+        console.log("questo errore", err);
         res.status(400).json({errors});
     }
 };

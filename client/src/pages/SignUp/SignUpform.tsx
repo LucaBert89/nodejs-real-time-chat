@@ -1,67 +1,36 @@
 import React, {useState} from 'react';
-import {Redirect} from "react-router-dom"
+
 
 interface IForm {
+    username: string,
     email: string;
     password: string;
     confirmPassword:string;
 }
 
 interface IError {
+    usernameError: string,
     emailError: string,
     passwordError: string
 }
 
 function Form () {
-    const [user, setUser] = useState<IForm>({email: "", password: "", confirmPassword: ""})
-    const [error, setError] = useState<IError>({emailError: "", passwordError:""})
-/*
-    e.preventDefault();
-    const email = form.email.value;
-    const password = form.password.value;
-    console.log(email, password);
+    const [user, setUser] = useState<IForm>({username: "", email: "", password: "", confirmPassword: ""})
+    const [error, setError] = useState<IError>({usernameError: "", emailError: "", passwordError:""})
 
-    //reset error handling values
-    emailError.innerText = "";
-    passwordError.innerText = "";
-
-    try{
-        const res = await fetch("/signup", {
-            method: "Post",
-            body: JSON.stringify({email, password}),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        // fetch response take data or error
-        const data = await res.json();
-        //if inside data there is an errors obj
-        if(data.errors) {
-            emailError.innerText = data.errors.email;
-            passwordError.innerText = data.errors.password;
-            return
-        }
-        //if there is the id, redirect
-        if(data._id) {
-            location.assign("/login");
-        }
-    }
-    catch(err) {
-        console.log(err);
-    }
-    */
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
         event.preventDefault()
 
     try{
-        const {email, password, confirmPassword} = user;
+        const {username, email, password, confirmPassword} = user;
+        console.log(username, email, password)
         if(password !== confirmPassword) {
-           setError({emailError: "email doesn't match", passwordError:""});
+           setError({usernameError: "", emailError: "", passwordError:"password doesn't match"});
            return 
         }
         const res = await fetch("http://localhost:5000/signup", {
             method: "Post",
-            body: JSON.stringify({email: email, password: password}),
+            body: JSON.stringify({username: username, email: email, password: password}),
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -72,7 +41,7 @@ function Form () {
 
         //if inside data there is an errors obj
         if(data.errors) {
-            setError({emailError: data.errors.email, passwordError:data.errors.password});
+            setError({usernameError: data.errors.username, emailError: data.errors.email, passwordError:data.errors.password});
             console.log("okok", error);
             return
         }
@@ -92,8 +61,13 @@ function Form () {
         <div>
         <main className="login-app-container">
             <form onSubmit={handleSubmit} className="login-app-container__signup-form"> 
+            <div className="signup-form__username">
+                    <label htmlFor="username"><b>Username</b></label>
+                    <input type="text" placeholder="Email" name="username" required onChange={e => setUser({...user, username: e.target.value})} value={user.username}></input>
+                    <div className="signup-form__username-error">{error.usernameError}</div>
+                </div>
                 <div className="signup-form__email">
-                    <label htmlFor="email"><b>Username</b></label>
+                    <label htmlFor="email"><b>Email</b></label>
                     <input type="text" placeholder="Email" name="email" required onChange={e => setUser({...user, email: e.target.value})} value={user.email}></input>
                     <div className="signup-form__email-error">{error.emailError}</div>
                 </div>

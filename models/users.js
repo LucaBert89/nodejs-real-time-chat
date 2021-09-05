@@ -5,6 +5,11 @@ const bcrypt = require('bcryptjs');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
+    username: {
+        type: String,
+        required:[true,"Please enter an username"],
+        unique: true,
+    },
     email: {
         type: String,
         required: [true,"Please enter an email"],
@@ -26,13 +31,23 @@ userSchema.pre("save", async function(next) {
 })
 
 //login a User using a static mongoose method
-userSchema.statics.login = async function(email, password) {
+userSchema.statics.login = async function(username, email, password) {
+    const userName = await this.findOne({username});
+    if(!userName) throw Error("incorrect username");
     const user = await this.findOne({email});
     if(!user) throw Error("incorrect email");
         const checkAuth = await bcrypt.compare(password, user.password);
         console.log(checkAuth);
     if(!checkAuth) throw Error("incorrect password");
         return user;
+}
+
+userSchema.statics.checkDuplicate = async function(username, email) {
+    const userName = await this.findOne({username});
+    if(userName) throw Error("username already registered");
+    const user = await this.findOne({email});
+    if(user) throw Error("email already registered");
+    return ({username: userName, user:user});
 }
 
 module.exports = mongoose.model("User", userSchema);
