@@ -1,9 +1,6 @@
 import {useState, useEffect, useRef} from 'react';
+import IData from "../../../interfaces/dataLoading"
 
-interface Idata {
-    isLoaded: boolean,
-    data: [Object]
-}
 
 interface Irooms {
     id: string,
@@ -11,8 +8,8 @@ interface Irooms {
     messages:[Object]
 }
 
-function CreateRoom() {
-    const [list, setList] = useState<Idata>({isLoaded: false, data:[{}]})
+const CreateRoom: React.FC = () => {
+    const [list, setList] = useState<IData>({isLoaded: false, data:[{}]})
 
     useEffect(() => {
         
@@ -34,7 +31,7 @@ function CreateRoom() {
     }, [])
   
 
-    const handleClick = async (event: any, topic: string) => {
+    const handleClick = async (event: React.MouseEvent<HTMLElement>, topic: string) => {
         event.preventDefault();
         console.log(topic);
         /*const topicName: string | null = divElement && divElement.split(": ")[1];
@@ -68,7 +65,7 @@ function CreateRoom() {
             <div className="topic-container__single-topic">
                 {list.isLoaded ? list.data.map((e: any) => {
                     return (
-                    <div className="topic-container__single-topic" key={e._id} onClick={(event) => handleClick(event, e.topic)}>
+                    <div className="topic-container__single-topic" key={e._id} onClick={(event: React.MouseEvent<HTMLElement>) => handleClick(event, e.topic)}>
                         <p className="topic-container__topic-name">Topic: {e.topic}</p>
                         <p className="topic-container__topic-messages">Messages: {e.messages.length}</p>
                     </div>

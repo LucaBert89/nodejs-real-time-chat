@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-
+import IError from "../../interfaces/formErrors"
 
 interface IForm {
     username: string,
@@ -8,11 +8,7 @@ interface IForm {
     confirmPassword:string;
 }
 
-interface IError {
-    usernameError: string,
-    emailError: string,
-    passwordError: string
-}
+
 
 function Form () {
     const [user, setUser] = useState<IForm>({username: "", email: "", password: "", confirmPassword: ""})
@@ -61,9 +57,11 @@ function Form () {
         <div>
         <main className="login-app-container">
             <form onSubmit={handleSubmit} className="login-app-container__signup-form"> 
+            
             <div className="signup-form__username">
+                   
                     <label htmlFor="username"><b>Username</b></label>
-                    <input type="text" placeholder="Email" name="username" required onChange={e => setUser({...user, username: e.target.value})} value={user.username}></input>
+                    <input type="text" placeholder="Username" name="username" required onChange={e => setUser({...user, username: e.target.value})} value={user.username}></input>
                     <div className="signup-form__username-error">{error.usernameError}</div>
                 </div>
                 <div className="signup-form__email">

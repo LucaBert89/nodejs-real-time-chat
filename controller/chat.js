@@ -38,7 +38,6 @@ exports.getMessage = async (req, res) => {
     const findRoom = await chatRoom.findById(req.params.id)
     let newArray = display(findRoom);
     const topic = topicName(findRoom);
-    console.log(newArray)
     if(findRoom.messages.length !==0 ) {
         const result = await Promise.all(newArray);
         return res.status(201).json(result);
@@ -61,7 +60,8 @@ function display(findRoom) {
             return {
                 room: findRoom.topic,
                 mex: e.message,
-                iduser: await User.findById(e.sender).then(user => user.username)
+                idmessage: e._id,
+                user: await User.findById(e.sender).then(user => user.username)
             }
         })
 }

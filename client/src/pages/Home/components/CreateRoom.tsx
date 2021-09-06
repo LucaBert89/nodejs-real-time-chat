@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 
 const CreateRoom: React.FC = () => {
 
-    const [room, setRoom] = useState("")
+    const [room, setRoom] = useState<string>("")
 
         const handleRoom = async (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();

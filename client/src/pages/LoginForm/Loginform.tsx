@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Redirect} from "react-router-dom"
+import IError from "../../interfaces/formErrors"
 
 interface IForm {
     username:string,
@@ -7,13 +7,9 @@ interface IForm {
     password: string
 }
 
-interface IError {
-    usernameError: string,
-    emailError: string,
-    passwordError: string
-}
 
-function Form () {
+
+const Form: React.FC  = () => {
     localStorage.removeItem("userId")
     const [user, setUser] = useState<IForm>({username:"", email: "", password: ""})
     const [error, setError] = useState<IError>({usernameError:"", emailError: "", passwordError:""})
