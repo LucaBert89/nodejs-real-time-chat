@@ -1,11 +1,19 @@
 import {useState, useEffect, useRef} from 'react';
-import IData from "../../../interfaces/dataLoading"
+import {IData} from "../../../interfaces/dataLoading"
 
 
-interface Irooms {
-    id: string,
+interface IRooms {
+    _id: string,
     topic: string,
-    messages:[Object]
+    messages:[IMessage]
+}
+
+interface IMessage {
+    _id: string,
+    message: string,
+    sender:string,
+    updatedAt:string,
+    createdAt:string
 }
 
 const CreateRoom: React.FC = () => {
@@ -64,6 +72,7 @@ const CreateRoom: React.FC = () => {
         <div className="topic-container">
             <div className="topic-container__single-topic">
                 {list.isLoaded ? list.data.map((e: any) => {
+                    console.log(e);
                     return (
                     <div className="topic-container__single-topic" key={e._id} onClick={(event: React.MouseEvent<HTMLElement>) => handleClick(event, e.topic)}>
                         <p className="topic-container__topic-name">Topic: {e.topic}</p>

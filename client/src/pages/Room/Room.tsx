@@ -2,14 +2,15 @@ import {useEffect, useState} from 'react'
 import NewMessage from "./components/NewMessage"
 import io from "socket.io-client"
 import GetMessages from './components/GetMessages';
-import IData from "../../interfaces/dataLoading"
+import {IData} from "../../interfaces/dataLoading"
+import IMessage from "./interfaces/messageInterface"
 const socket = io("http://localhost:5000");
 
 
 
 
 const Room: React.FC  = () => {
-    const [message, setMessage] = useState<any>("")
+    const [message, setMessage] = useState<string>("")
     const [list, setList] = useState<IData>({isLoaded: false, data:[{}]})
     const [roomName, setRoomName] = useState<string>("");
     const [textMessage, setTextMessage] = useState<[]>([])
@@ -45,10 +46,11 @@ const Room: React.FC  = () => {
                     credentials: "include"
                 });
                 // fetch response take data or error
-                const data: any = await res.json();
+                const data: IMessage = await res.json();
+                console.log(data);
                 if(data.error) window.location.assign(`http://localhost:3000/login`)
                 //if inside data there is an errors obj            
-                const newData: any = [textMessage, data];
+                const newData: [[], IMessage] = [textMessage, data];
                 socket.emit("message", newData);
             }
             catch(err) {
@@ -74,13 +76,12 @@ const Room: React.FC  = () => {
 
             })
     
-             socket.on("message", (data: any): void => {
+             socket.on("message", (data: []): void => {
                 setTextMessage(data)
             }) 
         }
 
         const roomList = (data: any): void => {
-            console.log(data);
             if(data.mex !== "") {
                 setRoomName(data[0].room)
                 setList({isLoaded: true, data: data});

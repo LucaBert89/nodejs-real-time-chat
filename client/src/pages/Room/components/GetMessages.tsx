@@ -1,16 +1,9 @@
-interface Idata {
-    isLoaded: boolean,
-    data: [Object]
-}
+import {IData, myData} from "../../../interfaces/dataLoading"
 
-interface myData {
-    idmessage: string,
-    room:string,
-    mex:string,
-    user:string
-}
 
-const GetMessages: React.FC<{messageList:Idata}> = (props: any) => {
+
+const GetMessages: React.FC<{messageList:IData}> = (props: any) => {
+    console.log(props)
     return (
         props.messageList.isLoaded ?  props.messageList.data.map((e: myData) => {
             return(

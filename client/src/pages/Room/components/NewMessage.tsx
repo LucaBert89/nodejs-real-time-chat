@@ -1,17 +1,6 @@
 import React from 'react';
+import IMessage from "./interfaces/messageInterface"
 
-interface IMessage {
-    findmessage: {
-        message:string,
-        sender:string
-    }
-    sender: {
-        _id:string,
-        username:string,
-        email: string,
-        password:string
-    }
-}
 
 
 const NewMessage: React.FC<{message: any}> =(props: any) => {

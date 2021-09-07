@@ -18,12 +18,12 @@ exports.getRoomList = async (req, res) => {
 exports.postRoom = async (req, res) => {
     
     try {
-    const {topic ,messages} = req.body;
-    const checkDuplicate = await chatRoom.find({topic});
-    if(checkDuplicate.length > 0) throw Error("topic already opened")
-    const createRoom = await chatRoom.create({topic, messages})
-    
-    return res.status(201).json(createRoom);
+        const {topic ,messages} = req.body;
+        const checkDuplicate = await chatRoom.find({topic});
+        if(checkDuplicate.length > 0) throw Error("topic already opened")
+        const createRoom = await chatRoom.create({topic, messages})
+        
+        return res.status(201).json(createRoom);
     }
     catch (err) {
         const errors = handleErrors(err);
@@ -36,11 +36,14 @@ exports.postRoom = async (req, res) => {
 exports.getTopic = async (req, res) => {
     const {topic ,messages} = req.body;
     console.log(topic)
-    chatRoom.find({topic}).then(function (rooms) {
-        console.log(rooms);
+    try {
+        const rooms = await chatRoom.find({topic})
         const topicId = rooms.map(e => e._id)
         return res.status(201).json(topicId);
-    })
+    }
+   catch(err) {
+       console.log(err)
+   }
 }
 
 exports.getMessage = async (req, res) => { 
@@ -81,7 +84,7 @@ exports.postMessage = async (req, res) => {
     console.log(topic);
     const newMessage = messages[0];
     const findUser = await User.findById(newMessage.sender).exec();
-    const updateChat = await chatRoom.findByIdAndUpdate(id, {$push: {"messages": newMessage}})
+    await chatRoom.findByIdAndUpdate(id, {$push: {"messages": newMessage}})
     const generateMessage = {
         topicName: topic,
         sender: findUser,
@@ -91,6 +94,7 @@ exports.postMessage = async (req, res) => {
     return res.status(201).json(generateMessage);
 };
     
+/*
 
 exports.postChatPage = (req, res) => {
     
@@ -128,3 +132,4 @@ exports.postChatPage = (req, res) => {
      res.cookie("jwt", newToken, {secure: true, httpOnly: true})
      res.send()
 }
+*/

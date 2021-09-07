@@ -1,6 +1,11 @@
-interface IData {
+export interface IData {
     isLoaded: boolean,
     data: [Object]
 }
 
-export default IData
+export interface myData {
+    idmessage: string,
+    room:string,
+    mex:string,
+    user:string
+}
