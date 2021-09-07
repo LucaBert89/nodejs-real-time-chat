@@ -1,12 +1,7 @@
 import React, {useState} from 'react';
 import IError from "../../interfaces/formErrors"
+import IForm from "../../interfaces/formInterface"
 
-interface IForm {
-    username: string,
-    email: string;
-    password: string;
-    confirmPassword:string;
-}
 
 
 

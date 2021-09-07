@@ -2,20 +2,6 @@ import {useState, useEffect, useRef} from 'react';
 import {IData} from "../../../interfaces/dataLoading"
 
 
-interface IRooms {
-    _id: string,
-    topic: string,
-    messages:[IMessage]
-}
-
-interface IMessage {
-    _id: string,
-    message: string,
-    sender:string,
-    updatedAt:string,
-    createdAt:string
-}
-
 const CreateRoom: React.FC = () => {
     const [list, setList] = useState<IData>({isLoaded: false, data:[{}]})
 

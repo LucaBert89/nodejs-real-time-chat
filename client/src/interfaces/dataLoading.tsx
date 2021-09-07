@@ -4,8 +4,8 @@ export interface IData {
 }
 
 export interface myData {
-    idmessage: string,
     room:string,
     mex:string,
+    idmessage: string,
     user:string
 }

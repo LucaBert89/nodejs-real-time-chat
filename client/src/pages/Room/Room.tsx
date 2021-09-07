@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react'
 import NewMessage from "./components/NewMessage"
 import io from "socket.io-client"
 import GetMessages from './components/GetMessages';
-import {IData} from "../../interfaces/dataLoading"
+import {myData} from "../../interfaces/dataLoading"
 import IMessage from "./interfaces/messageInterface"
 const socket = io("http://localhost:5000");
 
@@ -11,7 +11,7 @@ const socket = io("http://localhost:5000");
 
 const Room: React.FC  = () => {
     const [message, setMessage] = useState<string>("")
-    const [list, setList] = useState<IData>({isLoaded: false, data:[{}]})
+    const [list, setList] = useState<{isLoaded: boolean, data:myData[]}>({isLoaded: false, data:[{room: "", mex: "", idmessage: "", user:""}]})
     const [roomName, setRoomName] = useState<string>("");
     const [textMessage, setTextMessage] = useState<[]>([])
     const [typing, setTyping] = useState<{isTyping:boolean}>({isTyping: false});
@@ -88,10 +88,10 @@ const Room: React.FC  = () => {
 
             } else {
                 setRoomName(data.room)
-                setList({isLoaded: true, data: [{mex: "", iduser: ""}]});
+                setList({isLoaded: true, data: [{room: "", mex: "", idmessage: "", user:""}]});
             }
         }
-
+        console.log(list);
     return (
         <div>
             <h1 className="topic-name">{roomName}</h1>
@@ -99,8 +99,9 @@ const Room: React.FC  = () => {
                 <input type="text" className="add__message" name="message" onChange={e => handleChange(e)}></input>
                 <button type="submit" className="add__message-btn">create message</button>
             </form>
-                <GetMessages messageList={list} />
-                
+                <div className="messages-container" key={list.data[0].room}>
+                    <GetMessages messageList={list} />
+                </div>
                 <NewMessage message={textMessage} />
                 <p className="messages_user-typing">{typing.isTyping ? "Someone is Typing" : ""} </p>
         </div>
