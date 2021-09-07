@@ -5,7 +5,6 @@ const chatPage = require("../controller/chat");
 
 const {verify} = require("../middlewares/auth.js");
 
-router.get('/home', verify, chatPage.getChatPage);
 
 router.get('/roomlist', verify, chatPage.getRoomList);
 

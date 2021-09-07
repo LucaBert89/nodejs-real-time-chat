@@ -21,8 +21,10 @@ const roomSchema = new Schema({
     topic: {
         type: String,
         required: true,
+        unique: true
     },
     messages: [chatSchema]
 })
+
 
 module.exports = mongoose.model("chatRoom", roomSchema);

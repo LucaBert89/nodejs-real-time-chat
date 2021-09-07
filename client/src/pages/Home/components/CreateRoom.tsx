@@ -3,17 +3,16 @@ import React, {useState} from 'react';
 const CreateRoom: React.FC = () => {
 
     const [room, setRoom] = useState<string>("")
+    const [error, setError] = useState<{topicError: string}>({topicError:""})
 
         const handleRoom = async (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
             localStorage.removeItem("roomId");
-            console.log(room);
-            const roomChat = room;
-    
+
                 try{
                     const res = await fetch(`http://localhost:5000/room`, {
                         method: "Post",
-                        body: JSON.stringify({topic: roomChat, messages: []}),
+                        body: JSON.stringify({topic: room, messages: []}),
                         headers: {
                             'Content-Type': 'application/json'
                         },
@@ -21,7 +20,12 @@ const CreateRoom: React.FC = () => {
                     });
                     // fetch response take data or error
                     const data = await res.json();
-                    //if inside data there is an errors obj
+                    if(data.errors) {
+                        setError({topicError: data.errors.topic});
+                        console.log("okok", error);
+                        return
+                    }
+                    //if inside data there is an error obj
                     //if there is the id, redirect
                     if(data.error) {window.location.assign(`http://localhost:3000/login`)}
                     localStorage.setItem('roomId', data._id);
@@ -37,7 +41,8 @@ const CreateRoom: React.FC = () => {
     return (
         <div>
         <form onSubmit={handleRoom} className="room__text-form">
-            <input type="text" className="topic__name" name="topic" onChange={e => setRoom(e.target.value)}></input>
+            <input type="text" className="topic__name" name="topic" onChange={e => setRoom(e.target.value)} value={room}></input>
+            <div className="room__topic-error">{error.topicError}</div>
             <button type="submit" className="add__topic">create Topic</button>
         </form>
         </div>

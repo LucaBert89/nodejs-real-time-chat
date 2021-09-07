@@ -1,11 +1,13 @@
 const chatRoom = require("../models/chat")
 const { sendMessage } = require('../utils/socket-io');
 const User = require("../models/users")
-exports.getChatPage = (req, res) => {
-    
-        return res.render("home")
-    
-};
+
+
+const handleErrors = (err) => {
+    let errors = {topic: ""};
+    if(err.message === "topic already opened") errors.topic = "topic already opened!"
+    return errors;
+}
 
 exports.getRoomList = async (req, res) => {
     const roomList = await chatRoom.find({})
@@ -15,11 +17,19 @@ exports.getRoomList = async (req, res) => {
 
 exports.postRoom = async (req, res) => {
     
+    try {
     const {topic ,messages} = req.body;
-    console.log("ok", topic, messages);
+    const checkDuplicate = await chatRoom.find({topic});
+    if(checkDuplicate.length > 0) throw Error("topic already opened")
     const createRoom = await chatRoom.create({topic, messages})
     
     return res.status(201).json(createRoom);
+    }
+    catch (err) {
+        const errors = handleErrors(err);
+        res.status(400).json({errors});
+        
+    }
 }
 
 
