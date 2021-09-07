@@ -1,0 +1,82 @@
+body {
+    background: #2c3338;
+    color: #606468;
+    font: 87.5%/1.5em 'Open Sans', sans-serif;
+    margin: 0;
+  }
+  
+  input {
+    border: none;
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5em;
+    padding: 0;
+    -webkit-appearance: none;
+  }
+  
+  .form-app-container__data-form {
+    margin: 50px auto;
+    width: 320px;
+  }
+  
+  .form-app-container__data-form {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 22px 22px 22px 22px;
+    width: 100%;
+    border-radius: 5px;
+    background: #282e33;
+    border-top: 3px solid #434a52;
+    border-bottom: 3px solid #434a52;
+  }
+
+  .form-app-container__data-form label {
+    background-color: #363b41;
+    border-radius: 3px 0px 0px 3px;
+    border-right: 3px solid #434a52;
+    color: #606468;
+    display: inline-block;
+    line-height: 50px;
+    text-align: center;
+    width: 150px;
+    height: 50px; 
+  }
+  
+  
+  .form-app-container__data-form input[type="text"] {
+    background-color: #3b4148;
+    border-radius: 0px 3px 3px 0px;
+    color: #a9a9a9;
+    margin-bottom: 1em;
+    padding: 0 16px;
+    width: 235px;
+    height: 50px;
+  }
+  
+  .form-app-container__data-form input[type="password"] {
+    background-color: #3b4148;
+    border-radius: 0px 3px 3px 0px;
+    color: #a9a9a9;
+    margin-bottom: 1em;
+    padding: 0 16px;
+    width: 235px;
+    height: 50px;
+  }
+  
+  button {
+    background: #b5cd60;
+    border: 0;
+    width: 20%;
+    padding:20px;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+    margin-bottom:10px;
+  }
+ 
+  button:hover {
+    background: #16aa56;
+  }

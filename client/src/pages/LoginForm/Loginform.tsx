@@ -47,8 +47,8 @@ const Form: React.FC  = () => {
     return (
         <div>
         <main className="login-app-container">
-            <form onSubmit={handleSubmit} className="login-app-container__login-form"> 
-            <div className="login-form__username">
+            <form onSubmit={handleSubmit} className="form-app-container__data-form"> 
+                <div className="login-form__username">
                     <label htmlFor="username"><b>Username</b></label>
                     <input type="text" placeholder="username" name="username" required onChange={e => setUser({...user, username: e.target.value})} value={user.username}></input>
                     <div className="login-form__email-error">{error.usernameError}</div>
@@ -64,8 +64,9 @@ const Form: React.FC  = () => {
                     <div className="login-form__password-error">{error.passwordError}</div>
                 </div>
                 <button type="submit">Login</button>
+                <button type="submit"><a href="signup">Signup</a></button>
             </form>
-            <button type="submit"><a href="signup">Signup</a></button>
+           
         </main>
         </div>
     );

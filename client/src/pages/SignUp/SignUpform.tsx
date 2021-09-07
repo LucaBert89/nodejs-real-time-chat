@@ -51,7 +51,7 @@ function Form () {
     return (
         <div>
         <main className="login-app-container">
-            <form onSubmit={handleSubmit} className="login-app-container__signup-form"> 
+            <form onSubmit={handleSubmit} className="form-app-container__data-form"> 
             
             <div className="signup-form__username">
                    
@@ -75,8 +75,9 @@ function Form () {
                     <div className="signup-form__password-error">{error.passwordError}</div>
                 </div>
                 <button type="submit">Signup</button>
+                <button type="submit"><a href="login">Login</a></button>
             </form>
-            <button type="submit"><a href="login">Login</a></button>
+            
         </main>
         </div>
     );
