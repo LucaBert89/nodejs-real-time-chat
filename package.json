@@ -7,8 +7,7 @@
     "start": "node app.js",
     "dev": "nodemon app.js",
     "build": "cd client && npm run build",
-    "heroku-postbuild": "npm install install-client && npm run build",  
-    "install-client": "cd client && npm install"
+    "heroku-postbuild": "cd client && npm install && npm run build",  
   },
   "engines": {
     "node": "14.16.0"
