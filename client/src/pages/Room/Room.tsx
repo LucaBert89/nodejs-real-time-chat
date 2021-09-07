@@ -58,7 +58,7 @@ const Room: React.FC  = () => {
             }
         }
         
-        function handleChange (e: React.ChangeEvent<HTMLInputElement>): void {
+        function handleChange (e: React.ChangeEvent<HTMLTextAreaElement>): void {
             if(e.target.value === "") {
 
                 socket.emit("typing", {isTyping: false});
@@ -95,15 +95,16 @@ const Room: React.FC  = () => {
     return (
         <div>
             <h1 className="topic-name">{roomName}</h1>
-            <form className="message__text-form" onSubmit={addMessage}>
-                <input type="text" className="add__message" name="message" onChange={e => handleChange(e)}></input>
-                <button type="submit" className="add__message-btn">create message</button>
-            </form>
+          
                 <div className="messages-container" key={list.data[0].room}>
                     <GetMessages messageList={list} />
                 </div>
                 <NewMessage message={textMessage} />
                 <p className="messages_user-typing">{typing.isTyping ? "Someone is Typing" : ""} </p>
+                <form className="message__text-form" onSubmit={addMessage}>
+                    <textarea placeholder="type your message..." className="add__message" name="message" onChange={e => handleChange(e)}></textarea>
+                    <button type="submit" className="add__message-btn">Send</button>
+                </form>
         </div>
     )
 }
