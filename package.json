@@ -4,7 +4,11 @@
   "description": "- Implement a local web server using NodeJs and Socket.io\r - Implement an interface to show the real-time chat\r - Each user should be authenticated on a database before joining the chat \r - Test the application from a different browser screen",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "build": "cd client && npm run build",
+    "heroku-postbuild": "npm install install-client && npm run build",  
+    "install-client": "cd client && npm install"
   },
   "repository": {
     "type": "git",

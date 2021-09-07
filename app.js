@@ -4,6 +4,8 @@ const path = require('path');
 const app = express();
 const { socketConnection } = require('./utils/socket-io');
 const cors = require('cors');
+const PORT = process.env.PORT || 5000;
+
 app.set('view engine', 'ejs');
 
 require('dotenv').config();
@@ -17,7 +19,10 @@ app.use(cookieParser())
 app.use(express.json())
 app.use(cors({credentials: true, origin: 'http://localhost:3000'  }))
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'client', "build", "index.html")));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/client/build/index.html'))
+})
 app.use(loginRoute);
 app.use(chatRoute);
 
@@ -29,7 +34,7 @@ mongoose.connect(
 )
 .then(result => {
     console.log("connected")
-    const server = app.listen(5000);
+    const server = app.listen(PORT);
     socketConnection(server);
 })
 .catch(err => {

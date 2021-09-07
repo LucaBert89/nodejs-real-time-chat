@@ -17,7 +17,6 @@ const handleErrors = (err) => {
 
     if(err.message.includes("User validation failed")) {
         Object.values(err.errors).forEach(({properties}) => {
-            console.log(properties);
             errors[properties.path] = properties.message;
         });
     }
@@ -27,7 +26,7 @@ const handleErrors = (err) => {
 
 const createToken = (id) => {
     return jwt.sign({ id }, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: "5m"
+        expiresIn: "2h"
     })
 }
 
