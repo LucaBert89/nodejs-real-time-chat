@@ -1,0 +1,47 @@
+.topic-container__single-topic {
+    background-color: #d21d38;
+    color:#fff;
+    font-size:15px;
+    padding:20px;
+    cursor:pointer;
+    border-radius:20px;
+    margin-top:20px;
+    margin-left:20px;
+    width: 80%;
+}
+
+.topic-container__single-topic:hover {
+    background-color: #fff;
+    color:#d21d38;
+}
+
+.topic__name {
+    width:100%;
+    height:50px;
+    padding-left:0px;
+    margin-top:20px;
+    border-radius:20px;
+    margin-bottom:10px;
+    font-size:10px;
+}
+
+.room__text-form {
+    margin-left:20px;
+    
+}
+
+@media all and (min-width: 768px) {
+    .topic__name {
+        padding-left:20px;
+        width:50%;
+        font-size:20px;
+    }
+
+}
+
+@media all and (min-width: 768px) {
+    .topic-container__single-topic {
+        font-size:20px;
+    }
+
+}

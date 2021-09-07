@@ -4,6 +4,7 @@ import io from "socket.io-client"
 import GetMessages from './components/GetMessages';
 import {myData} from "../../interfaces/dataLoading"
 import IMessage from "./interfaces/messageInterface"
+import Footer from "../../components/Footer"
 const socket = io("http://localhost:5000");
 
 
@@ -91,20 +92,20 @@ const Room: React.FC  = () => {
                 setList({isLoaded: true, data: [{room: "", mex: "", idmessage: "", user:""}]});
             }
         }
-        console.log(list);
     return (
         <div>
-            <h1 className="topic-name">{roomName}</h1>
+            <h1 className="topic-name">Topic Title: {roomName}</h1>
           
                 <div className="messages-container" key={list.data[0].room}>
                     <GetMessages messageList={list} />
                 </div>
                 <NewMessage message={textMessage} />
-                <p className="messages_user-typing">{typing.isTyping ? "Someone is Typing" : ""} </p>
+                <p className="messages_user-typing">{typing.isTyping ? "Someone is Typing..." : ""} </p>
                 <form className="message__text-form" onSubmit={addMessage}>
                     <textarea placeholder="type your message..." className="add__message" name="message" onChange={e => handleChange(e)}></textarea>
                     <button type="submit" className="add__message-btn">Send</button>
                 </form>
+                <Footer />
         </div>
     )
 }

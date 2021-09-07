@@ -57,22 +57,22 @@ function Form () {
                    
                     <label htmlFor="username"><b>Username</b></label>
                     <input type="text" placeholder="Username" name="username" required onChange={e => setUser({...user, username: e.target.value})} value={user.username}></input>
-                    <div className="signup-form__username-error">{error.usernameError}</div>
+                    <div className="signup-form__username-error error">{error.usernameError}</div>
                 </div>
                 <div className="signup-form__email">
                     <label htmlFor="email"><b>Email</b></label>
                     <input type="text" placeholder="Email" name="email" required onChange={e => setUser({...user, email: e.target.value})} value={user.email}></input>
-                    <div className="signup-form__email-error">{error.emailError}</div>
+                    <div className="signup-form__email-error error">{error.emailError}</div>
                 </div>
                 <div className="signup-form__password">
                     <label htmlFor="password"><b>Password</b></label>
                     <input type="password" placeholder="Enter Password" name="password" required onChange={e => setUser({...user, password: e.target.value})} value={user.password}></input>
-                    <div className="signup-form__password-error">{error.passwordError}</div>
+                    <div className="signup-form__password-error error">{error.passwordError}</div>
                 </div>
                 <div className="signup-form__confirm-password">
                     <label htmlFor="password"><b>Confirm Password</b></label>
                     <input type="password" placeholder="Enter Password" name="confirm-password" required onChange={e => setUser({...user, confirmPassword: e.target.value})} value={user.confirmPassword}></input>
-                    <div className="signup-form__password-error">{error.passwordError}</div>
+                    <div className="signup-form__password-error error">{error.passwordError}</div>
                 </div>
                 <button type="submit">Signup</button>
                 <button type="submit"><a href="login">Login</a></button>

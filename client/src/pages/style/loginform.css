@@ -25,7 +25,6 @@ body {
     justify-content: center;
     flex-direction: column;
     padding: 22px 22px 22px 22px;
-    width: 100%;
     border-radius: 5px;
     background: #282e33;
     border-top: 3px solid #434a52;
@@ -33,7 +32,7 @@ body {
   }
 
   .form-app-container__data-form label {
-    background-color: #363b41;
+    background-color: #7295c0;
     border-radius: 3px 0px 0px 3px;
     border-right: 3px solid #434a52;
     color: #606468;
@@ -44,6 +43,9 @@ body {
     height: 50px; 
   }
   
+  .error {
+    color:brown;
+  }
   
   .form-app-container__data-form input[type="text"] {
     background-color: #3b4148;
@@ -80,3 +82,10 @@ body {
   button:hover {
     background: #16aa56;
   }
+
+  @media all and (min-width: 768px) {
+    .form-app-container__data-form {
+      width:100%;
+    }
+  }
+  

@@ -22,11 +22,9 @@ const CreateRoom: React.FC = () => {
                     const data = await res.json();
                     if(data.errors) {
                         setError({topicError: data.errors.topic});
-                        console.log("okok", error);
                         return
                     }
-                    //if inside data there is an error obj
-                    //if there is the id, redirect
+
                     if(data.error) {window.location.assign(`http://localhost:3000/login`)}
                     localStorage.setItem('roomId', data._id);
                     if(data._id) {window.location.assign(`http://localhost:3000/home/chat/${data._id}`);}
@@ -41,9 +39,9 @@ const CreateRoom: React.FC = () => {
     return (
         <div>
         <form onSubmit={handleRoom} className="room__text-form">
-            <input type="text" className="topic__name" name="topic" onChange={e => setRoom(e.target.value)} value={room}></input>
+            <input type="text" placeholder="Create a new topic of discussion..." className="topic__name" name="topic" onChange={e => setRoom(e.target.value)} value={room}></input>
             <div className="room__topic-error">{error.topicError}</div>
-            <button type="submit" className="add__topic">create Topic</button>
+            <button type="submit" className="add__topic">Create Topic</button>
         </form>
         </div>
     )

@@ -14,7 +14,6 @@ const CreateRoom: React.FC = () => {
             })
             const data = await res.json();
             if(data.error) window.location.assign(`http://localhost:3000/login`)
-            console.log(data);
             if(data) {
                 setList({isLoaded: true, data: data});
             }
@@ -27,9 +26,6 @@ const CreateRoom: React.FC = () => {
 
     const handleClick = async (event: React.MouseEvent<HTMLElement>, topic: string) => {
         event.preventDefault();
-        console.log(topic);
-        /*const topicName: string | null = divElement && divElement.split(": ")[1];
-        console.log(topicName);*/
         localStorage.removeItem("roomId");
 
         try{
@@ -56,7 +52,7 @@ const CreateRoom: React.FC = () => {
     return (
         <div>
         <div className="topic-container">
-            <div className="topic-container__single-topic">
+            <div className="topic-container">
                 {list.isLoaded ? list.data.map((e: any) => {
                     console.log(e);
                     return (

@@ -10,6 +10,7 @@ const handleErrors = (err) => {
     console.log(err.message)
     //error handling for login
     if(err.message === "username already registered") errors.username = "username already registered";
+    if(err.message === "incorrect username") errors.username = "incorrect username";
     if(err.message === "email already registered") errors.email = "email already registered";
     if(err.message === "incorrect email") errors.email = "the email is not registered";
     if(err.message === "incorrect password") errors.password = "the password is incorrect";
@@ -52,7 +53,6 @@ exports.postSignUpPage = async (req, res) => {
     const {username, email, password} = req.body;
     console.log(username, email, password);
     try {
-        console.log("signup");
         const checkDuplicate = await User.checkDuplicate(username, email);
         console.log("sono di qua", checkDuplicate);
         if(!checkDuplicate.username && !checkDuplicate.user) {
