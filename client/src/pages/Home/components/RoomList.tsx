@@ -1,4 +1,4 @@
-import {useState, useEffect, useRef} from 'react';
+import {useState, useEffect} from 'react';
 import {IData} from "../../../interfaces/dataLoading"
 
 
@@ -42,7 +42,7 @@ const CreateRoom: React.FC = () => {
             localStorage.setItem('roomId', data[0]);
             //if inside data there is an errors obj
             //if there is the id, redirect
-            window.location.assign(`/home/chat/${data[0]}`);
+            window.location.assign(`/chat/${data[0]}`);
         }
         catch(err) {
             console.log(err);

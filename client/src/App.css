@@ -1,5 +1,6 @@
-@import "./pages/style/loginform.css";
+@import "./pages/LoginForm/loginform.css";
 @import "./pages/Room/style/room.css";
 @import "./pages/Room/components/style/messages.css";
 @import "./pages/Home/style/createRoom.css";
-@import "./components/Footer.css"
+@import "./components/Footer.css";
+@import "./pages/Home/components/RoomList.css"

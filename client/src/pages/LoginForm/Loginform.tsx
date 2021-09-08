@@ -36,7 +36,7 @@ const Form: React.FC  = () => {
 
         localStorage.setItem("userId", data.user)
         localStorage.setItem("username", username)
-        if(data.user) window.location.assign("http://localhost:3000/home");
+        if(data.user) window.location.assign("http://localhost:3000/");
         //if there is the id, redirect
             //if(data.user) {location.assign("/chat");}
         }

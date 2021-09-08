@@ -27,7 +27,7 @@ const CreateRoom: React.FC = () => {
 
                     if(data.error) {window.location.assign(`http://localhost:3000/login`)}
                     localStorage.setItem('roomId', data._id);
-                    if(data._id) {window.location.assign(`http://localhost:3000/home/chat/${data._id}`);}
+                    if(data._id) {window.location.assign(`http://localhost:3000/chat/${data._id}`);}
                     
                 }
                 catch(err) {
@@ -40,7 +40,7 @@ const CreateRoom: React.FC = () => {
         <div>
         <form onSubmit={handleRoom} className="room__text-form">
             <input type="text" placeholder="Create a new topic of discussion..." className="topic__name" name="topic" onChange={e => setRoom(e.target.value)} value={room}></input>
-            <div className="room__topic-error">{error.topicError}</div>
+            <div className="room__topic-error error">{error.topicError}</div>
             <button type="submit" className="add__topic">Create Topic</button>
         </form>
         </div>

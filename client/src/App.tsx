@@ -1,5 +1,4 @@
 import './App.css';
-import "./style/RoomList.css";
 import {  BrowserRouter as Router,
   Switch,
   Route } from "react-router-dom"
@@ -18,8 +17,8 @@ function App() {
       <Switch>
         <Route exact path="/login"><Login></Login></Route> 
         <Route exact path="/signup"><SignUp></SignUp></Route>
-        <Route exact path="/home"><Home></Home></Route> 
-        <Route exact path="/home/chat/:id"><Room></Room></Route>
+        <Route exact path="/"><Home></Home></Route> 
+        <Route exact path="/chat/:id"><Room></Room></Route>
       </Switch>
       </Router>
 
