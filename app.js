@@ -17,7 +17,7 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser()) 
 app.use(express.json())
-app.use(cors({credentials: true, origin: 'http://localhost:3000'  }))
+app.use(cors({credentials: true, origin: 'https://chat-realtime-app-l.herokuapp.com/'  }))
 
 app.use(express.static(path.join(__dirname, "client/build")));
 app.get('*', (req, res) => {
