@@ -19,7 +19,7 @@ function Form () {
            setError({usernameError: "", emailError: "", passwordError:"password doesn't match"});
            return 
         }
-        const res = await fetch("https://chat-realtime-app-l.herokuapp.com/signup", {
+        const res = await fetch("https://real-chat-app-l.herokuapp.com/signup", {
             method: "Post",
             body: JSON.stringify({username: username, email: email, password: password}),
             headers: {
@@ -37,7 +37,7 @@ function Form () {
             return
         }
         if(data._id) {
-            window.location.assign("https://chat-realtime-app-l.herokuapp.com/login");
+            window.location.assign("https://real-chat-app-l.herokuapp.com/login");
         }
         //if there is the id, redirect
             //if(data.user) {location.assign("/chat");}

@@ -5,7 +5,7 @@ import GetMessages from './components/GetMessages';
 import {myData} from "../../interfaces/dataLoading"
 import IMessage from "./interfaces/messageInterface"
 import Footer from "../../components/Footer"
-const socket = io("https://chat-realtime-app-l.herokuapp.com/");
+const socket = io("https://real-chat-app-l.herokuapp.com/");
 
 
 
@@ -21,12 +21,12 @@ const Room: React.FC  = () => {
         (async function() {
 
             const roomId: string | null = localStorage.getItem("roomId");
-            const res = await fetch(`https://chat-realtime-app-l.herokuapp.com/chat/${roomId}`, {
+            const res = await fetch(`https://real-chat-app-l.herokuapp.com/chat/${roomId}`, {
                 credentials: "include"
             })
             const data = await res.json();
             
-            if(data.error) window.location.assign(`https://chat-realtime-app-l.herokuapp.com/login`)
+            if(data.error) window.location.assign(`https://real-chat-app-l.herokuapp.com/login`)
 
             roomList(data);
 
@@ -38,7 +38,7 @@ const Room: React.FC  = () => {
     const addMessage = async (e: React.FormEvent<HTMLFormElement>): Promise<void>  => {
             e.preventDefault()
             try{
-                const res = await fetch("https://chat-realtime-app-l.herokuapp.com/addMessage", {
+                const res = await fetch("https://real-chat-app-l.herokuapp.com/addMessage", {
                     method: "Post", 
                     body: JSON.stringify({id: window.location.href.split("/")[5], topic: roomName, messages: [{message: message, sender: localStorage.getItem("userId")?.toString()}]}),
                     headers: {
@@ -49,7 +49,7 @@ const Room: React.FC  = () => {
                 // fetch response take data or error
                 const data: IMessage = await res.json();
                 console.log(data);
-                if(data.error) window.location.assign(`https://chat-realtime-app-l.herokuapp.com/login`)
+                if(data.error) window.location.assign(`https://real-chat-app-l.herokuapp.com/login`)
                 //if inside data there is an errors obj            
                 const newData: [[], IMessage] = [textMessage, data];
                 socket.emit("message", newData);
