@@ -9,11 +9,11 @@ const CreateRoom: React.FC = () => {
         
         (async function() {
             localStorage.removeItem("roomId");
-            const res = await fetch(`http://localhost:5000/roomlist`, {
+            const res = await fetch(`https://chat-realtime-app-l.herokuapp.com/roomlist`, {
                 credentials: "include"
             })
             const data = await res.json();
-            if(data.error) window.location.assign(`http://localhost:3000/login`)
+            if(data.error) window.location.assign(`https://chat-realtime-app-l.herokuapp.com/login`)
             if(data) {
                 setList({isLoaded: true, data: data});
             }

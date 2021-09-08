@@ -21,12 +21,12 @@ const Room: React.FC  = () => {
         (async function() {
 
             const roomId: string | null = localStorage.getItem("roomId");
-            const res = await fetch(`https://chat-realtime-app-l.herokuapp.com//chat/${roomId}`, {
+            const res = await fetch(`https://chat-realtime-app-l.herokuapp.com/chat/${roomId}`, {
                 credentials: "include"
             })
             const data = await res.json();
             
-            if(data.error) window.location.assign(`https://chat-realtime-app-l.herokuapp.com//login`)
+            if(data.error) window.location.assign(`https://chat-realtime-app-l.herokuapp.com/login`)
 
             roomList(data);
 
@@ -49,7 +49,7 @@ const Room: React.FC  = () => {
                 // fetch response take data or error
                 const data: IMessage = await res.json();
                 console.log(data);
-                if(data.error) window.location.assign(`https://chat-realtime-app-l.herokuapp.com//login`)
+                if(data.error) window.location.assign(`https://chat-realtime-app-l.herokuapp.com/login`)
                 //if inside data there is an errors obj            
                 const newData: [[], IMessage] = [textMessage, data];
                 socket.emit("message", newData);
