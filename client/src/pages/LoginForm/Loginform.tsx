@@ -16,7 +16,7 @@ const Form: React.FC  = () => {
     try{
         const {username, email, password} = user;
 
-        const res = await fetch("http://localhost:5000/login", {
+        const res = await fetch("https://chat-realtime-app-l.herokuapp.com/login", {
             method: "Post",
             body: JSON.stringify({username: username, email: email, password: password}),
             headers: {
@@ -36,7 +36,7 @@ const Form: React.FC  = () => {
 
         localStorage.setItem("userId", data.user)
         localStorage.setItem("username", username)
-        if(data.user) window.location.assign("http://localhost:3000/");
+        if(data.user) window.location.assign("https://chat-realtime-app-l.herokuapp.com/");
         //if there is the id, redirect
             //if(data.user) {location.assign("/chat");}
         }
