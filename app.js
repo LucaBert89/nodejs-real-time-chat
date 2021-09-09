@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require("mongoose");
 const path = require('path');
 const app = express();
+const http = require('http').createServer(app);
 const { socketConnection } = require('./utils/socket-io');
 const cors = require('cors');
 const PORT = process.env.PORT || 5000;
@@ -36,7 +37,7 @@ mongoose.connect(
 )
 .then(result => {
     console.log("connected")
-    const server = app.listen(PORT);
+    const server = http.listen(PORT);
     socketConnection(server);
 })
 .catch(err => {

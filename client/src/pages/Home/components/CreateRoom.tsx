@@ -27,7 +27,7 @@ const CreateRoom: React.FC = () => {
 
                     if(data.error) {window.location.assign(`https://real-chat-app-l.herokuapp.com/login`)}
                     localStorage.setItem('roomId', data._id);
-                    if(data._id) {window.location.assign(`http://localhost:3000/chat/${data._id}`);}
+                    if(data._id) {window.location.assign(`https://real-chat-app-l.herokuapp.com/chat/${data._id}`);}
                     
                 }
                 catch(err) {
