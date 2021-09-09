@@ -2,7 +2,7 @@ let io;
 exports.socketConnection = (server) => {
   io = require('socket.io')(server, {
     cors: {
-      origins: ["https://real-chat-app-l.herokuapp.com/"]
+      origins: ["https://real-chat-app-l.herokuapp.com/", "https://real-chat-app-l.herokuapp.com/chat/:id"]
     }
   });
   io.on('connection', (socket) => {

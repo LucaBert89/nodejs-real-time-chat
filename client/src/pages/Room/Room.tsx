@@ -79,6 +79,7 @@ const Room: React.FC  = () => {
             })
     
              socket.on("message", (data: []): void => {
+                 console.log(data);
                 setTextMessage(data)
             }) 
         }
