@@ -16,7 +16,7 @@ const Form: React.FC  = () => {
     try{
         const {username, email, password} = user;
 
-        const res = await fetch("https://real-chat-app-l.herokuapp.com/login", {
+        const res = await fetch("https://real-chat-app-l.herokuapp.com/api/login", {
             method: "Post",
             body: JSON.stringify({username: username, email: email, password: password}),
             headers: {

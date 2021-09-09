@@ -19,13 +19,14 @@ app.use(cookieParser())
 app.use(express.json())
 app.use(cors({credentials: true, origin: 'https://real-chat-app-l.herokuapp.com/'}))
 
+app.use(loginRoute);
+app.use(chatRoute);
 app.use(express.static(path.join(__dirname, "client/build")));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '/client/build/index.html')
   )});
 
-app.use(loginRoute);
-app.use(chatRoute);
+
 
 
 mongoose.connect(

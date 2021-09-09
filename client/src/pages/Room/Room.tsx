@@ -21,7 +21,7 @@ const Room: React.FC  = () => {
         (async function() {
 
             const roomId: string | null = localStorage.getItem("roomId");
-            const res = await fetch(`https://real-chat-app-l.herokuapp.com/chat/${roomId}`, {
+            const res = await fetch(`https://real-chat-app-l.herokuapp.com/api/chat/${roomId}`, {
                 credentials: "include"
             })
             const data = await res.json();
@@ -38,7 +38,7 @@ const Room: React.FC  = () => {
     const addMessage = async (e: React.FormEvent<HTMLFormElement>): Promise<void>  => {
             e.preventDefault()
             try{
-                const res = await fetch("https://real-chat-app-l.herokuapp.com/addMessage", {
+                const res = await fetch("https://real-chat-app-l.herokuapp.com/api/addMessage", {
                     method: "Post", 
                     body: JSON.stringify({id: window.location.href.split("/")[5], topic: roomName, messages: [{message: message, sender: localStorage.getItem("userId")?.toString()}]}),
                     headers: {

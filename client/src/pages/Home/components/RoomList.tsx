@@ -9,10 +9,14 @@ const CreateRoom: React.FC = () => {
         
         (async function() {
             localStorage.removeItem("roomId");
-            const res = await fetch(`https://real-chat-app-l.herokuapp.com/roomlist`, {
-                credentials: "include"
+            const res = await fetch(`https://real-chat-app-l.herokuapp.com/api/roomlist`, {
+                headers: {
+                    'Accept': 'application/json'
+                },
+                credentials: "include",
             })
             const data = await res.json();
+            console.log(data.errors)
             if(data.error) window.location.assign(`https://real-chat-app-l.herokuapp.com/login`)
             if(data) {
                 setList({isLoaded: true, data: data});
@@ -29,16 +33,16 @@ const CreateRoom: React.FC = () => {
         localStorage.removeItem("roomId");
 
         try{
-            const res = await fetch("/topic", {
+            const res = await fetch("https://real-chat-app-l.herokuapp.com/api/topic", {
                 method: "Post",
                 body: JSON.stringify({topic: topic, messages: []}),
                 headers: {
                     'Content-Type': 'application/json'
-                }
+                },
+                credentials: "include"
             });
             // fetch response take data or error
-            const data = await res.json();
-            console.log(data[0]);
+            const data = await res.json();  
             localStorage.setItem('roomId', data[0]);
             //if inside data there is an errors obj
             //if there is the id, redirect

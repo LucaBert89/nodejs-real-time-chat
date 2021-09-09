@@ -37,6 +37,5 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.8"
-  },
-  "proxy":"https://real-chat-app-l.herokuapp.com/"
+  }
 }
