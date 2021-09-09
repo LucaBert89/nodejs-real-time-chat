@@ -10,6 +10,7 @@ const CreateRoom: React.FC = () => {
         (async function() {
             localStorage.removeItem("roomId");
             const res = await fetch(`https://real-chat-app-l.herokuapp.com/roomlist`, {
+                Accept: 'application/json',
                 credentials: "include"
             })
             const data = await res.json();
