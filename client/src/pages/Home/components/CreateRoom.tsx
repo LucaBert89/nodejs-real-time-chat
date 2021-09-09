@@ -25,7 +25,7 @@ const CreateRoom: React.FC = () => {
                         return
                     }
 
-                    if(data.error) {window.location.assign(`/login`)}
+                    if(data.error) window.location.assign(`/login`)
                     localStorage.setItem('roomId', data._id);
                     if(data._id) {window.location.assign(`/chat/${data._id}`);}
                     

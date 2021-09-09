@@ -3,4 +3,5 @@
 @import "./pages/Room/components/style/messages.css";
 @import "./pages/Home/style/createRoom.css";
 @import "./components/Footer.css";
-@import "./pages/Home/components/RoomList.css"
+@import "./pages/Home/components/RoomList.css";
+@import "./components/header.css"

@@ -19,13 +19,12 @@ function Form () {
            setError({usernameError: "", emailError: "", passwordError:"password doesn't match"});
            return 
         }
-        const res = await fetch("https://real-chat-app-l.herokuapp.com/api/signup", {
+        const res = await fetch("/api/signup", {
             method: "Post",
             body: JSON.stringify({username: username, email: email, password: password}),
             headers: {
                 'Content-Type': 'application/json'
-            },
-            credentials: "include"
+            }
         });
         // fetch response take data or error
         const data = await res.json();

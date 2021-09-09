@@ -66,3 +66,8 @@ exports.postSignUpPage = async (req, res) => {
         res.status(400).json({errors});
     }
 };
+
+exports.logOut = async (req, res) => {
+  res.status(200).clearCookie('jwt')
+  res.json({message:"Log-out"})
+};

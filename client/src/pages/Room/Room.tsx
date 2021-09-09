@@ -4,8 +4,9 @@ import io from "socket.io-client"
 import GetMessages from './components/GetMessages';
 import {myData} from "../../interfaces/dataLoading"
 import IMessage from "./interfaces/messageInterface"
+import Header from "../../components/Header"
 import Footer from "../../components/Footer"
-const socket = io("http://localhost:5000");
+const socket = io("https://real-chat-app-l.herokuapp.com/");
 
 
 
@@ -99,6 +100,7 @@ const Room: React.FC  = () => {
         }
     return (
         <div>
+            <Header />
             <h1 className="topic-name">Topic Title: {roomName}</h1>
           
                 <div className="messages-container" key={list.data[0].room}>

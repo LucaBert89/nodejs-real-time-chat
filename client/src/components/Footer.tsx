@@ -1,4 +1,4 @@
-const Header = (props: any) => {
+const Footer = (props: any) => {
     return (
             <>
                     <footer className="chat-footer">
@@ -41,4 +41,4 @@ const Header = (props: any) => {
     )
 }
 
-export default Header
+export default Footer

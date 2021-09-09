@@ -46,7 +46,7 @@
 }
 
 .message-container {
-    background-color:#94C2ED;
+    background-color:darkgray;
     width:50%;
     position:relative;
     padding-left:20px;
@@ -77,7 +77,7 @@
 
 .message__user-author {
     text-align: left;
-    color:#000;
+    color:darkgoldenrod;
     font-size:12px;
     font-weight: bold;
 }

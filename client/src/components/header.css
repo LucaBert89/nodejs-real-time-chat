@@ -1,0 +1,12 @@
+.chat-header__logOut-btn {
+    background-color: brown;
+    padding: 10px 15px;
+    border-radius: 50%;
+}
+
+.chat-header__container {
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px;
+    color: #fff;
+}
