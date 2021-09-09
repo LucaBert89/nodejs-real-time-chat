@@ -37,8 +37,8 @@ mongoose.connect(
 )
 .then(result => {
     console.log("connected")
-    const server = http.listen(PORT);
-    socketConnection(server);
+    socketConnection(http);
+    http.listen(PORT);
 })
 .catch(err => {
     console.log(err);
