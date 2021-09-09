@@ -8,11 +8,11 @@ const GetMessages: React.FC<{messageList:{isLoaded: boolean, data:myData[]}}> = 
             return(
             
                 <div className={e.user === localStorage.getItem("username") ? "message-data__author" : "message-data"}  key={e.idmessage}>
-                <p className="message__user-author">{e.user} </p>
-                <div className={e.user === localStorage.getItem("username") ? "message-container__author" : "message-container"}>
-                    
-                    <p className="message_user-message">{e.mex}</p>
-                </div>
+                    <p className="message__user-author">{e.user} </p>
+                    <div className={e.user === localStorage.getItem("username") ? "message-container__author" : "message-container"}>
+                        
+                        <p className="message_user-message">{e.mex}</p>
+                    </div>
                 </div>
                
             )

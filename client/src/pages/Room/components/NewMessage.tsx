@@ -1,20 +1,21 @@
 import React from 'react';
 import IMessage from "../interfaces/messageInterface"
 
-
+console.log("qui")
 
 const NewMessage: React.FC<{message: any}> =(props: any) => {
-    return (
-        props.message.length > 0 ?
-        props.message.map((e: IMessage) => {
+    console.log(props)
+        
         return (
-            <div className={e.sender.username === localStorage.getItem("username") ? "message-container__author" : "message-container"}>
-                <p className="message__user-author" >{e.sender.username}</p>
-                <p className="message_user-message">{e.findmessage.message} </p>
+            props.message.username ?
+            <div className={props.message.sender.username === localStorage.getItem("username") ? "message-container__author" : "message-container"}>
+                <p className="message__user-author" >{props.message.sender.username}</p>
+                <p className="message_user-message">{props.message.findmessage.message} </p>
             </div>
-        )
-    }) : ""
-    )
+          : null  
+        ) 
+     
+    
     
 }
 

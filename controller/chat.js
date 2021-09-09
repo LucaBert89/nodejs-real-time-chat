@@ -81,10 +81,10 @@ function display(findRoom) {
 
 exports.postMessage = async (req, res) => { 
     const {id, topic ,messages} = req.body;
-    console.log(topic);
+
     const newMessage = messages[0];
     const findUser = await User.findById(newMessage.sender).exec();
-    await chatRoom.findByIdAndUpdate(id, {$push: {"messages": newMessage}})
+    const update = await chatRoom.findByIdAndUpdate(id, {$push: {"messages": newMessage}})
     const generateMessage = {
         topicName: topic,
         sender: findUser,

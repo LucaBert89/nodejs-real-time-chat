@@ -10,7 +10,7 @@ const CreateRoom: React.FC = () => {
             localStorage.removeItem("roomId");
 
                 try{
-                    const res = await fetch(`https://real-chat-app-l.herokuapp.com/api/room`, {
+                    const res = await fetch(`/api/room`, {
                         method: "Post",
                         body: JSON.stringify({topic: room, messages: []}),
                         headers: {
@@ -25,9 +25,9 @@ const CreateRoom: React.FC = () => {
                         return
                     }
 
-                    if(data.error) {window.location.assign(`https://real-chat-app-l.herokuapp.com/login`)}
+                    if(data.error) {window.location.assign(`/login`)}
                     localStorage.setItem('roomId', data._id);
-                    if(data._id) {window.location.assign(`https://real-chat-app-l.herokuapp.com/chat/${data._id}`);}
+                    if(data._id) {window.location.assign(`/chat/${data._id}`);}
                     
                 }
                 catch(err) {

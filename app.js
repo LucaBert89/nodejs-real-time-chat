@@ -33,7 +33,8 @@ app.get('*', (req, res) => {
 mongoose.connect(
     process.env.DB_CONN,
     { useUnifiedTopology: true,
-     useNewUrlParser: true }
+     useNewUrlParser: true,
+     useFindAndModify: false }
 )
 .then(result => {
     console.log("connected")

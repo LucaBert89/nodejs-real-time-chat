@@ -5,7 +5,7 @@ import GetMessages from './components/GetMessages';
 import {myData} from "../../interfaces/dataLoading"
 import IMessage from "./interfaces/messageInterface"
 import Footer from "../../components/Footer"
-const socket = io("https://real-chat-app-l.herokuapp.com/");
+const socket = io("http://localhost:5000");
 
 
 
@@ -14,19 +14,19 @@ const Room: React.FC  = () => {
     const [message, setMessage] = useState<string>("")
     const [list, setList] = useState<{isLoaded: boolean, data:myData[]}>({isLoaded: false, data:[{room: "", mex: "", idmessage: "", user:""}]})
     const [roomName, setRoomName] = useState<string>("");
-    const [textMessage, setTextMessage] = useState<[]>([])
+    const [textMessage, setTextMessage] = useState<{}>({})
     const [typing, setTyping] = useState<{isTyping:boolean}>({isTyping: false});
 
     useEffect(() => {
         (async function() {
 
             const roomId: string | null = localStorage.getItem("roomId");
-            const res = await fetch(`https://real-chat-app-l.herokuapp.com/api/chat/${roomId}`, {
+            const res = await fetch(`/api/chat/${roomId}`, {
                 credentials: "include"
             })
             const data = await res.json();
             
-            if(data.error) window.location.assign(`https://real-chat-app-l.herokuapp.com/login`)
+            if(data.error) window.location.assign(`/login`)
 
             roomList(data);
 
@@ -37,10 +37,11 @@ const Room: React.FC  = () => {
 
     const addMessage = async (e: React.FormEvent<HTMLFormElement>): Promise<void>  => {
             e.preventDefault()
+            const roomId: string | null = localStorage.getItem("roomId");
             try{
-                const res = await fetch("https://real-chat-app-l.herokuapp.com/api/addMessage", {
+                const res = await fetch("/api/addMessage", {
                     method: "Post", 
-                    body: JSON.stringify({id: window.location.href.split("/")[5], topic: roomName, messages: [{message: message, sender: localStorage.getItem("userId")?.toString()}]}),
+                    body: JSON.stringify({id: roomId, topic: roomName, messages: [{message: message, sender: localStorage.getItem("userId")?.toString()}]}),
                     headers: {
                         'Content-Type': 'application/json'
                     },
@@ -48,10 +49,11 @@ const Room: React.FC  = () => {
                 });
                 // fetch response take data or error
                 const data: IMessage = await res.json();
-                console.log(data);
-                if(data.error) window.location.assign(`https://real-chat-app-l.herokuapp.com/login`)
+    
+                if(data.error) window.location.assign(`/login`)
                 //if inside data there is an errors obj            
-                const newData: [[], IMessage] = [textMessage, data];
+                const newData: IMessage = data;
+           
                 socket.emit("message", newData);
 
             }
@@ -59,6 +61,7 @@ const Room: React.FC  = () => {
                 console.log(err);
             }
         }
+        
         
         function handleChange (e: React.ChangeEvent<HTMLTextAreaElement>): void {
             if(e.target.value === "") {
@@ -101,7 +104,10 @@ const Room: React.FC  = () => {
                 <div className="messages-container" key={list.data[0].room}>
                     <GetMessages messageList={list} />
                 </div>
+               
+                
                 <NewMessage message={textMessage} />
+               
                 <p className="messages_user-typing">{typing.isTyping ? "Someone is Typing..." : ""} </p>
                 <form className="message__text-form" onSubmit={addMessage}>
                     <textarea placeholder="type your message..." className="add__message" name="message" onChange={e => handleChange(e)}></textarea>

@@ -9,7 +9,7 @@ const CreateRoom: React.FC = () => {
         
         (async function() {
             localStorage.removeItem("roomId");
-            const res = await fetch(`https://real-chat-app-l.herokuapp.com/api/roomlist`, {
+            const res = await fetch(`/api/roomlist`, {
                 headers: {
                     'Accept': 'application/json'
                 },
@@ -17,7 +17,7 @@ const CreateRoom: React.FC = () => {
             })
             const data = await res.json();
             console.log(data.errors)
-            if(data.error) window.location.assign(`https://real-chat-app-l.herokuapp.com/login`)
+            if(data.error) window.location.assign(`/login`)
             if(data) {
                 setList({isLoaded: true, data: data});
             }
@@ -31,9 +31,8 @@ const CreateRoom: React.FC = () => {
     const handleClick = async (event: React.MouseEvent<HTMLElement>, topic: string) => {
         event.preventDefault();
         localStorage.removeItem("roomId");
-
         try{
-            const res = await fetch("https://real-chat-app-l.herokuapp.com/api/topic", {
+            const res = await fetch("/api/topic", {
                 method: "Post",
                 body: JSON.stringify({topic: topic, messages: []}),
                 headers: {
