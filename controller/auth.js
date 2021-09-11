@@ -7,7 +7,6 @@ const jwt = require('jsonwebtoken');
 //handle error messages
 const handleErrors = (err) => {
     let errors = {username: "", email:"", password: ""};
-    console.log(err.message)
     //error handling for login
     if(err.message === "username already registered") errors.username = "username already registered";
     if(err.message === "incorrect username") errors.username = "incorrect username";
@@ -17,6 +16,7 @@ const handleErrors = (err) => {
 
     if(err.message.includes("User validation failed")) {
         Object.values(err.errors).forEach(({properties}) => {
+            console.log(properties);
             errors[properties.path] = properties.message;
         });
     }

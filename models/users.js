@@ -30,18 +30,20 @@ userSchema.pre("save", async function(next) {
     next();
 })
 
-//login a User using a static mongoose method
+//login a User using a static mongoose method: Error handling
 userSchema.statics.login = async function(username, email, password) {
     const userName = await this.findOne({username});
     if(!userName) throw Error("incorrect username");
     const user = await this.findOne({email});
     if(!user) throw Error("incorrect email");
+    // compare the password inserted with the user's database password
         const checkAuth = await bcrypt.compare(password, user.password);
         console.log(checkAuth);
     if(!checkAuth) throw Error("incorrect password");
         return user;
 }
 
+//check if username or email are already in the database
 userSchema.statics.checkDuplicate = async function(username, email) {
     const userName = await this.findOne({username});
     if(userName) throw Error("username already registered");

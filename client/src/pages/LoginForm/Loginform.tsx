@@ -52,17 +52,17 @@ const Form: React.FC  = () => {
             <form onSubmit={handleSubmit} className="form-app-container__data-form"> 
                 <div className="login-form__username">
                     <label htmlFor="username"><b>Username</b></label>
-                    <input type="text" placeholder="username" name="username" required onChange={e => setUser({...user, username: e.target.value})} value={user.username}></input>
+                    <input type="text" placeholder="username" name="username" onChange={e => setUser({...user, username: e.target.value})} value={user.username}></input>
                     <div className="login-form__email-error error">{error.usernameError}</div>
                 </div>
                 <div className="login-form__email">
                     <label htmlFor="email"><b>Email</b></label>
-                    <input type="text" placeholder="Email" name="email" required onChange={e => setUser({...user, email: e.target.value})} value={user.email}></input>
+                    <input type="text" placeholder="Email" name="email" onChange={e => setUser({...user, email: e.target.value})} value={user.email}></input>
                     <div className="login-form__email-error error">{error.emailError}</div>
                 </div>
                 <div className="login-form__password">
                     <label htmlFor="password"><b>Password</b></label>
-                    <input type="password" placeholder="Enter Password" name="password" required onChange={e => setUser({...user, password: e.target.value})} value={user.password}></input>
+                    <input type="password" placeholder="Enter Password" name="password" onChange={e => setUser({...user, password: e.target.value})} value={user.password}></input>
                     <div className="login-form__password-error error">{error.passwordError}</div>
                 </div>
                 <button type="submit">Login</button>
