@@ -12,21 +12,24 @@ const socket = io("https://real-chat-app-l.herokuapp.com/");
 
 
 const Room: React.FC  = () => {
+    //state handling the message
     const [message, setMessage] = useState<string>("")
+    //state handling the list of messages of the room
     const [list, setList] = useState<{isLoaded: boolean, data:myData[]}>({isLoaded: false, data:[{room: "", mex: "", idmessage: "", user:""}]})
+    //state handling the room state displayed
     const [roomName, setRoomName] = useState<string>("");
     const [textMessage, setTextMessage] = useState<{}>({})
     const [typing, setTyping] = useState<{isTyping:boolean}>({isTyping: false});
 
     useEffect(() => {
         (async function() {
-
+            //fetch to API of the chat with the right ID stored inside localStorage
             const roomId: string | null = localStorage.getItem("roomId");
             const res = await fetch(`/api/chat/${roomId}`, {
                 credentials: "include"
             })
             const data = await res.json();
-            
+            //redirect to login page
             if(data.error) window.location.assign(`/login`)
 
             roomList(data);
@@ -62,14 +65,14 @@ const Room: React.FC  = () => {
                 console.log(err);
             }
         }
-        
+        console.log(textMessage)
         
         function handleChange (e: React.ChangeEvent<HTMLTextAreaElement>): void {
             if(e.target.value === "") {
-
+                //if the input is empty
                 socket.emit("typing", {isTyping: false});
             } else {
-
+                //if the user type
                 socket.emit("typing", {isTyping: true});
             }
             setMessage(e.target.value);
@@ -89,11 +92,13 @@ const Room: React.FC  = () => {
         }
 
         const roomList = (data: any): void => {
+            //if there are messages inside room:
             if(data.mex !== "") {
                 setRoomName(data[0].room)
                 setList({isLoaded: true, data: data});
 
             } else {
+                // if there aren't messages
                 setRoomName(data.room)
                 setList({isLoaded: true, data: [{room: "", mex: "", idmessage: "", user:""}]});
             }

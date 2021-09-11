@@ -6,6 +6,7 @@ import IForm from "../../interfaces/formInterface"
 
 
 function Form () {
+    //state for input fields and errors
     const [user, setUser] = useState<IForm>({username: "", email: "", password: "", confirmPassword: ""})
     const [error, setError] = useState<IError>({usernameError: "", emailError: "", passwordError:""})
 
@@ -14,7 +15,8 @@ function Form () {
 
     try{
         const {username, email, password, confirmPassword} = user;
-        console.log(username, email, password)
+        
+        //checking if the passwords match before signup request
         if(password !== confirmPassword) {
            setError({usernameError: "", emailError: "", passwordError:"password doesn't match"});
            return 
@@ -29,12 +31,13 @@ function Form () {
         // fetch response take data or error
         const data = await res.json();
 
-        //if inside data there is an errors obj
+        //if inside data there is an errors key than set the Error coming from errorHandling
         if(data.errors) {
             setError({usernameError: data.errors.username, emailError: data.errors.email, passwordError:data.errors.password});
-            console.log("okok", error);
+            
             return
         }
+        //if there is an ID than the login was succesful
         if(data._id) {
             window.location.assign("https://real-chat-app-l.herokuapp.com/login");
         }
