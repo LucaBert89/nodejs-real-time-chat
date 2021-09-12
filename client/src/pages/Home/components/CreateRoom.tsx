@@ -20,13 +20,15 @@ const CreateRoom: React.FC = () => {
                     });
                     // fetch response take data or error
                     const data = await res.json();
+                    // if the topic already exist there is an error
                     if(data.errors) {
                         setError({topicError: data.errors.topic});
                         return
                     }
-
+                    // if token expires or not exist redirect
                     if(data.error) window.location.assign(`/login`)
                     localStorage.setItem('roomId', data._id);
+                    //if there is the id redirect to the new roome created
                     if(data._id) {window.location.assign(`/chat/${data._id}`);}
                     
                 }

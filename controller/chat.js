@@ -9,12 +9,14 @@ const handleErrors = (err) => {
     return errors;
 }
 
+//return all the chatrooms created
 exports.getRoomList = async (req, res) => {
     const roomList = await chatRoom.find({})
         
     return res.status(201).json(roomList);
 };
 
+//create a new chatroom
 exports.postRoom = async (req, res) => {
     
     try {
@@ -32,7 +34,7 @@ exports.postRoom = async (req, res) => {
     }
 }
 
-
+//return the room ID
 exports.getTopic = async (req, res) => {
     const {topic ,messages} = req.body;
     console.log(topic)
@@ -46,11 +48,13 @@ exports.getTopic = async (req, res) => {
    }
 }
 
+//get the message of the roomID params
 exports.getMessage = async (req, res) => { 
     console.log("id", req.params.id)
     const findRoom = await chatRoom.findById(req.params.id)
     let newArray = display(findRoom);
     const topic = topicName(findRoom);
+    // if there are messages inside the room than display the messages in the room otherwise display only the topic name
     if(findRoom.messages.length !==0 ) {
         const result = await Promise.all(newArray);
         return res.status(201).json(result);
@@ -64,7 +68,8 @@ function topicName(findRoom) {
     return {
         room: findRoom.topic,
         mex: "",
-        iduser: "",
+        idmessage:"",
+        user: "",
     }
 }
 
@@ -74,11 +79,13 @@ function display(findRoom) {
                 room: findRoom.topic,
                 mex: e.message,
                 idmessage: e._id,
+                //find the username based on the id
                 user: await User.findById(e.sender).then(user => user.username)
             }
         })
 }
 
+//send the message and update database
 exports.postMessage = async (req, res) => { 
     const {id, topic ,messages} = req.body;
 
@@ -90,6 +97,7 @@ exports.postMessage = async (req, res) => {
         sender: findUser,
         findmessage: newMessage
     }   
+    //the generate message is used in socket
     sendMessage(generateMessage)
     return res.status(201).json(generateMessage);
 };

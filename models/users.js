@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 
 const Schema = mongoose.Schema;
 
+//user Schema and error validation using validator
 const userSchema = new Schema({
     username: {
         type: String,

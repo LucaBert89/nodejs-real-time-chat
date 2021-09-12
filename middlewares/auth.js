@@ -14,6 +14,7 @@ exports.verify = function(req, res, next){
         //use the jwt.verify method to verify the access token
         jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err,decodedToken) => {
             if(err) {
+                //if the token is expired
                 //res.redirect("https://real-chat-app-l.herokuapp.com/login")
                 return res.status(400).json({error: "token expired"});
 

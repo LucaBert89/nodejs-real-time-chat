@@ -1,10 +1,9 @@
 import React from 'react';
 import IMessage from "../interfaces/messageInterface"
 
-console.log("qui")
 
-const NewMessage: React.FC<{message: any}> =(props: any) => {
-    console.log(props)
+const NewMessage: React.FC<{message: IMessage}> =(props: any) => {
+
         
         return (
             props.message.username ?

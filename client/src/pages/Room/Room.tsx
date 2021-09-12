@@ -6,7 +6,7 @@ import {myData} from "../../interfaces/dataLoading"
 import IMessage from "./interfaces/messageInterface"
 import Header from "../../components/Header"
 import Footer from "../../components/Footer"
-const socket = io("https://real-chat-app-l.herokuapp.com/");
+const socket = io("https://real-chat-app-l.herokuapp.com");
 
 
 
@@ -18,9 +18,12 @@ const Room: React.FC  = () => {
     const [list, setList] = useState<{isLoaded: boolean, data:myData[]}>({isLoaded: false, data:[{room: "", mex: "", idmessage: "", user:""}]})
     //state handling the room state displayed
     const [roomName, setRoomName] = useState<string>("");
-    const [textMessage, setTextMessage] = useState<{}>({})
+    //state handling the message with message data
+    const [textMessage, setTextMessage] = useState<IMessage>({findmessage: {message: "", sender: ""},sender: {_id:"", username:"", email: "", password:""},topicName: "", error: ""})
+    //state handling the typing socket 
     const [typing, setTyping] = useState<{isTyping:boolean}>({isTyping: false});
 
+    //get all the messages inside the room
     useEffect(() => {
         (async function() {
             //fetch to API of the chat with the right ID stored inside localStorage
@@ -41,6 +44,7 @@ const Room: React.FC  = () => {
 
     const addMessage = async (e: React.FormEvent<HTMLFormElement>): Promise<void>  => {
             e.preventDefault()
+
             const roomId: string | null = localStorage.getItem("roomId");
             try{
                 const res = await fetch("/api/addMessage", {
@@ -53,19 +57,20 @@ const Room: React.FC  = () => {
                 });
                 // fetch response take data or error
                 const data: IMessage = await res.json();
-    
-                if(data.error) window.location.assign(`/login`)
-                //if inside data there is an errors obj            
-                const newData: IMessage = data;
-           
-                socket.emit("message", newData);
 
+                //if inside data there is an errors obj redirect
+                if(data.error) window.location.assign(`/login`)
+                
+                //emit the message to socket server
+           
+                socket.emit("message", data);
+                setMessage("")
             }
+           
             catch(err) {
                 console.log(err);
             }
         }
-        console.log(textMessage)
         
         function handleChange (e: React.ChangeEvent<HTMLTextAreaElement>): void {
             if(e.target.value === "") {
@@ -85,8 +90,8 @@ const Room: React.FC  = () => {
 
             })
     
-             socket.on("message", (data: []): void => {
-                 console.log(data);
+             socket.on("message", (data: IMessage): void => {
+                //listen from the server response data
                 setTextMessage(data)
             }) 
         }

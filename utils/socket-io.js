@@ -9,7 +9,7 @@ exports.socketConnection = (server) => {
     console.info(`Client connected [id=${socket.id}]`);
     
    socket.on("typing", (data) => {
-     console.log(data);
+    //data = typing true or false. Everyone expect myself should see someone is typing
      socket.broadcast.emit("typing", data);
    })
     

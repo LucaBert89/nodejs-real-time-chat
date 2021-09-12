@@ -6,7 +6,7 @@ const CreateRoom: React.FC = () => {
     const [list, setList] = useState<IData>({isLoaded: false, data:[{}]})
 
     useEffect(() => {
-        
+        //get all the room list
         (async function() {
             localStorage.removeItem("roomId");
             const res = await fetch(`/api/roomlist`, {
@@ -16,15 +16,13 @@ const CreateRoom: React.FC = () => {
                 credentials: "include",
             })
             const data = await res.json();
-            console.log(data.errors)
+            //redirect in case of no token or expired token
             if(data.error) window.location.assign(`/login`)
             if(data) {
                 setList({isLoaded: true, data: data});
             }
             
         })();
-
-   
     }, [])
   
 
@@ -42,9 +40,10 @@ const CreateRoom: React.FC = () => {
             });
             // fetch response take data or error
             const data = await res.json();  
+            //save item in localstorage to use it in /addMessage fetch
             localStorage.setItem('roomId', data[0]);
-            //if inside data there is an errors obj
-            //if there is the id, redirect
+
+            //take the room ID and redirect to the idRoom
             window.location.assign(`/chat/${data[0]}`);
         }
         catch(err) {
