@@ -6,7 +6,7 @@ import {myData} from "../../interfaces/dataLoading"
 import IMessage from "./interfaces/messageInterface"
 import Header from "../../components/Header"
 import Footer from "../../components/Footer"
-const socket = io("https://real-chat-app-l.herokuapp.com");
+const socket = io("http://localhost:5000");
 
 
 
@@ -95,13 +95,14 @@ const Room: React.FC  = () => {
     
              socket.on("message", (data: IMessage): void => {
                 //listen from the server response data
+
                 setTextMessage(data)
             }) 
         }
 
         const roomList = (data: any): void => {
             //if there are messages inside room:
-            if(data.mex !== "") {
+            if(data.length) {
                 setRoomName(data[0].room)
                 setList({isLoaded: true, data: data});
 
@@ -111,7 +112,7 @@ const Room: React.FC  = () => {
                 setList({isLoaded: true, data: [{room: "", mex: "", idmessage: "", user:""}]});
             }
         }
-
+        
     return (
         <div>
             <Header />

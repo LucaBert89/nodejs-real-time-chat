@@ -3,8 +3,6 @@ import IMessage from "../interfaces/messageInterface"
 
 
 const NewMessage: React.FC<{message: IMessage}> =(props: any) => {
-
-        
         return (
             props.message.username ?
             <div className={props.message.sender.username === localStorage.getItem("username") ? "message-container__author" : "message-container"}>
