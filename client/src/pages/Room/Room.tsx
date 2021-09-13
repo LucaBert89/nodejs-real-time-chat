@@ -64,7 +64,9 @@ const Room: React.FC  = () => {
                 //emit the message to socket server
            
                 socket.emit("message", data);
+                // clear the values after the message is sent
                 setMessage("")
+                socket.emit("typing", {isTyping: false});
             }
            
             catch(err) {
@@ -87,8 +89,8 @@ const Room: React.FC  = () => {
        
         const socketHandler = (): void => {
             socket.on("typing", (data: {isTyping: boolean}) => {
+                //set the typing state with boolean true or false
                 setTyping(data)
-
             })
     
              socket.on("message", (data: IMessage): void => {
@@ -109,6 +111,7 @@ const Room: React.FC  = () => {
                 setList({isLoaded: true, data: [{room: "", mex: "", idmessage: "", user:""}]});
             }
         }
+
     return (
         <div>
             <Header />
@@ -120,8 +123,8 @@ const Room: React.FC  = () => {
                
                 
                 <NewMessage message={textMessage} />
-               
-                <p className="messages_user-typing">{typing.isTyping ? "Someone is Typing..." : ""} </p>
+                
+                {typing.isTyping ? <p className="messages_user-typing">"Someone is Typing..."</p>  : ""}
                 <form className="message__text-form" onSubmit={addMessage}>
                     <textarea placeholder="type your message..." className="add__message" name="message" onChange={e => handleChange(e)} value={message}></textarea>
                     <button type="submit" className="add__message-btn">Send</button>
