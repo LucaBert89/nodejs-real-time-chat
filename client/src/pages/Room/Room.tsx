@@ -6,7 +6,7 @@ import {myData} from "../../interfaces/dataLoading"
 import IMessage from "./interfaces/messageInterface"
 import Header from "../../components/Header"
 import Footer from "../../components/Footer"
-const socket = io("https://real-chat-app-l.herokuapp.com");
+const socket = io("http://localhost:5000");
 
 
 
@@ -72,6 +72,7 @@ const Room: React.FC  = () => {
             }
         }
         
+
         function handleChange (e: React.ChangeEvent<HTMLTextAreaElement>): void {
             if(e.target.value === "") {
                 //if the input is empty
@@ -122,7 +123,7 @@ const Room: React.FC  = () => {
                
                 <p className="messages_user-typing">{typing.isTyping ? "Someone is Typing..." : ""} </p>
                 <form className="message__text-form" onSubmit={addMessage}>
-                    <textarea placeholder="type your message..." className="add__message" name="message" onChange={e => handleChange(e)}></textarea>
+                    <textarea placeholder="type your message..." className="add__message" name="message" onChange={e => handleChange(e)} value={message}></textarea>
                     <button type="submit" className="add__message-btn">Send</button>
                 </form>
                 <Footer />
