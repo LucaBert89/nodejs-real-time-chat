@@ -6,7 +6,7 @@ import {myData} from "../../interfaces/dataLoading"
 import IMessage from "./interfaces/messageInterface"
 import Header from "../../components/Header"
 import Footer from "../../components/Footer"
-const socket = io("http://localhost:5000");
+const socket = io("https://real-chat-app-l.herokuapp.com");
 
 
 
